@@ -1,0 +1,202 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String?
+  email        String?   @unique
+  passwordHash String?
+  phone        String?   @unique
+  phoneVerified Boolean  @default(false)
+  role         Role      @default(USER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  bookings     Booking[]
+  orders       ProductOrder[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  phone     String
+  code      String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([phone])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  icon      String?
+  services  Service[]
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Service {
+  id            String     @id @default(cuid())
+  title         String
+  slug          String     @unique
+  description   String
+  priceCents    Int
+  discountPct   Int        @default(0)
+  saleStartsAt  DateTime?
+  saleEndsAt    DateTime?
+  durationMin   Int        @default(60)
+  imageUrl      String?
+  active        Boolean    @default(true)
+  categoryId    String
+  category      Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  availabilities ServiceAvailability[]
+  bookings      Booking[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model ServiceAvailability {
+  id        String   @id @default(cuid())
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  date      DateTime
+  slots     String   // CSV of time slots e.g. "09:00,11:00,14:00"
+  capacity  Int      @default(5)
+
+  @@unique([serviceId, date])
+}
+
+model Product {
+  id           String      @id @default(cuid())
+  title        String
+  slug         String      @unique
+  description  String
+  priceCents   Int
+  discountPct  Int         @default(0)
+  saleStartsAt DateTime?
+  saleEndsAt   DateTime?
+  imageUrl     String?
+  stock        Int         @default(0)
+  active       Boolean     @default(true)
+  categoryId   String
+  category     Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  orderItems   OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model ProductOrder {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items         OrderItem[]
+  address       String
+  contactName   String
+  contactPhone  String
+  status        OrderStatus @default(PENDING)
+  subtotalCents Int         @default(0)
+  discountCents Int         @default(0)
+  totalCents    Int
+  couponCode    String?
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Coupon {
+  id                String      @id @default(cuid())
+  code              String      @unique
+  description       String?
+  kind              CouponKind
+  value             Int         // percentage (0-100) or flat cents depending on kind
+  minSubtotalCents  Int         @default(0)
+  maxDiscountCents  Int?        // cap when kind = PERCENT
+  startsAt          DateTime?
+  expiresAt         DateTime?
+  usageLimit        Int?        // null = unlimited
+  usedCount         Int         @default(0)
+  active            Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+enum CouponKind {
+  PERCENT
+  FLAT
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model OrderItem {
+  id         String       @id @default(cuid())
+  orderId    String
+  order      ProductOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product      @relation(fields: [productId], references: [id])
+  qty        Int
+  priceCents Int
+}
+
+model Locality {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  city      String
+  pincode   String?
+  active    Boolean   @default(true)
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId     String
+  service       Service       @relation(fields: [serviceId], references: [id])
+  localityId    String
+  locality      Locality      @relation(fields: [localityId], references: [id])
+  address       String
+  contactName   String
+  contactPhone  String
+  scheduledAt   DateTime
+  status        BookingStatus @default(PENDING)
+  notes         String?
+  subtotalCents Int           @default(0)
+  discountCents Int           @default(0)
+  totalCents    Int
+  couponCode    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
