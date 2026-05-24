@@ -21,7 +21,7 @@ export default function CancelButton({ id }: { id: string }) {
       type="button"
       onClick={cancel}
       disabled={busy}
-      className="mt-2 text-xs text-accent-600 font-semibold hover:underline"
+      className="mt-2 text-xs text-red-600 font-semibold hover:underline"
     >
       {busy ? "Cancelling..." : "Cancel booking"}
     </button>

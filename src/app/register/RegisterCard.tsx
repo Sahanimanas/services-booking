@@ -63,7 +63,7 @@ export default function RegisterCard({ next }: { next: string }) {
         <label className="block">
           <span className="text-sm font-semibold">Mobile Number</span>
           <div className="mt-1 flex">
-            <span className="inline-flex items-center px-3 rounded-l-xl bg-brand-50 border border-r-0 border-brand-100 text-brand-700 font-semibold">
+            <span className="inline-flex items-center px-3 rounded-l-xl bg-slate-100 border border-r-0 border-slate-200 text-slate-700 font-semibold">
               +91
             </span>
             <input

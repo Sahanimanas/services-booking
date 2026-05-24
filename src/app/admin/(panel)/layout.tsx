@@ -8,9 +8,9 @@ export default async function PanelLayout({ children }: { children: React.ReactN
 
   return (
     <div className="min-h-screen flex bg-slate-50">
-      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-brand-100">
-        <div className="h-16 flex items-center px-6 border-b border-brand-100">
-          <Link href="/admin" className="font-bold text-brand-700 text-lg">
+      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200">
+        <div className="h-16 flex items-center px-6 border-b border-slate-200">
+          <Link href="/admin" className="font-bold text-slate-900 text-lg">
             🛡 GSM Admin
           </Link>
         </div>
@@ -25,7 +25,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           <NavItem href="/admin/localities" label="Localities" icon="📍" />
           <NavItem href="/admin/users" label="Users" icon="👥" />
         </nav>
-        <div className="p-3 border-t border-brand-100 text-xs text-ink-900/60">
+        <div className="p-3 border-t border-slate-200 text-xs text-ink-900/60">
           <div className="px-2 mb-2">
             Signed in as <b>{user.email ?? user.name ?? "Admin"}</b>
           </div>
@@ -38,9 +38,9 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       </aside>
 
       <div className="flex-1 min-w-0">
-        <header className="h-16 bg-white border-b border-brand-100 flex items-center justify-between px-6 lg:px-8">
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 lg:px-8">
           <h1 className="text-lg font-semibold">Admin Panel</h1>
-          <Link href="/" className="text-sm text-brand-600 hover:underline">
+          <Link href="/" className="text-sm text-slate-700 underline-grow hover:text-slate-900">
             ← Back to site
           </Link>
         </header>
@@ -54,7 +54,7 @@ function NavItem({ href, label, icon }: { href: string; label: string; icon: str
   return (
     <Link
       href={href}
-      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-900/80 hover:bg-brand-50 hover:text-brand-700"
+      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-900/80 hover:bg-slate-50 hover:text-slate-900"
     >
       <span className="text-lg">{icon}</span>
       {label}

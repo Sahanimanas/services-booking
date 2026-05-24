@@ -32,7 +32,7 @@ export default function DeleteRowButton({
       type="button"
       onClick={onClick}
       disabled={busy}
-      className="text-accent-600 font-semibold hover:underline"
+      className="text-red-600 font-semibold hover:underline"
     >
       {busy ? "..." : label}
     </button>

@@ -27,7 +27,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-4 text-brand-300">Quick Links</h4>
+          <h4 className="font-semibold mb-4 text-slate-300">Quick Links</h4>
           <ul className="space-y-2 text-white/70 text-sm">
             <li><Link href="/" className="hover:text-white">Home</Link></li>
             <li><Link href="/services" className="hover:text-white">Services</Link></li>
@@ -38,7 +38,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-4 text-brand-300">Popular Services</h4>
+          <h4 className="font-semibold mb-4 text-slate-300">Popular Services</h4>
           <ul className="space-y-2 text-white/70 text-sm">
             <li><Link href="/services?cat=ac" className="hover:text-white">AC Repair</Link></li>
             <li><Link href="/services?cat=ro" className="hover:text-white">RO Service</Link></li>
@@ -50,11 +50,11 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-4 text-brand-300">Contact Us</h4>
+          <h4 className="font-semibold mb-4 text-slate-300">Contact Us</h4>
           <ul className="space-y-3 text-white/70 text-sm">
             <li>📞 +91 70617 77333</li>
             <li>✉️ support@globalservicemitra.in</li>
-            <li>📍 Kolkata · Patna · Bengaluru</li>
+            <li>📍  Patna </li>
           </ul>
         </div>
       </div>

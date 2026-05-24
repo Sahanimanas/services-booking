@@ -87,7 +87,7 @@ export default function CategoryManager({ initial }: { initial: Cat[] }) {
 
       <div className="card overflow-x-auto lg:col-span-2">
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">Name</th>
               <th className="px-5 py-3">Slug</th>
@@ -98,7 +98,7 @@ export default function CategoryManager({ initial }: { initial: Cat[] }) {
           </thead>
           <tbody>
             {initial.map((c) => (
-              <tr key={c.id} className="border-t border-brand-100/60">
+              <tr key={c.id} className="border-t border-slate-200/60">
                 <td className="px-5 py-3 font-medium">{c.name}</td>
                 <td className="px-5 py-3 text-ink-900/70">{c.slug}</td>
                 <td className="px-5 py-3">{c.services}</td>
@@ -107,7 +107,7 @@ export default function CategoryManager({ initial }: { initial: Cat[] }) {
                   <button
                     type="button"
                     onClick={() => remove(c.id)}
-                    className="text-accent-600 font-semibold"
+                    className="text-red-600 font-semibold"
                   >
                     Delete
                   </button>

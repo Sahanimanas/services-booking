@@ -167,16 +167,16 @@ function ServiceGrid({ services }: { services: any[] }) {
                   </span>
                 )}
                 {s.saleEndsAt && pct > 0 && (
-                  <span className="absolute top-3 right-3 bg-brand-700 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                  <span className="absolute top-3 right-3 bg-slate-900 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
                     Ends {new Date(s.saleEndsAt).toLocaleDateString()}
                   </span>
                 )}
               </div>
               <div className="p-5">
-                <div className="text-xs text-brand-600 font-semibold uppercase tracking-wide">
+                <div className="text-xs text-slate-500 font-semibold uppercase tracking-wide">
                   {s.category.name}
                 </div>
-                <div className="font-bold mt-1 group-hover:text-brand-700 line-clamp-1">
+                <div className="font-bold mt-1 group-hover:text-slate-900 line-clamp-1">
                   {s.title}
                 </div>
                 <p className="text-sm text-ink-900/60 mt-1 line-clamp-2">{s.description}</p>
@@ -210,7 +210,7 @@ function ProductGrid({ products }: { products: any[] }) {
           const unitCents = effectiveUnitCents(p);
           return (
             <div key={p.id} className="card-interactive group flex flex-col">
-              <div className="relative aspect-square bg-brand-50 overflow-hidden">
+              <div className="relative aspect-square bg-slate-100 overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={p.imageUrl ?? "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?w=600"}
@@ -224,7 +224,7 @@ function ProductGrid({ products }: { products: any[] }) {
                 )}
               </div>
               <div className="p-5 flex flex-col flex-1">
-                <div className="text-xs text-brand-600 font-semibold uppercase tracking-wide">
+                <div className="text-xs text-slate-500 font-semibold uppercase tracking-wide">
                   {p.category.name}
                 </div>
                 <div className="font-bold mt-1 line-clamp-1">{p.title}</div>

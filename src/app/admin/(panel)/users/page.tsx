@@ -13,7 +13,7 @@ export default async function AdminUsersPage() {
       <h1 className="text-2xl font-bold mb-6">Users</h1>
       <div className="card overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">Joined</th>
               <th className="px-5 py-3">Name</th>
@@ -25,7 +25,7 @@ export default async function AdminUsersPage() {
           </thead>
           <tbody>
             {users.map((u) => (
-              <tr key={u.id} className="border-t border-brand-100/60">
+              <tr key={u.id} className="border-t border-slate-200/60">
                 <td className="px-5 py-3 text-ink-900/70">
                   {new Date(u.createdAt).toLocaleDateString()}
                 </td>

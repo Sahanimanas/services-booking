@@ -152,7 +152,7 @@ export default function ServiceForm({
         </label>
       </div>
 
-      <div className="rounded-xl border border-brand-100 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="rounded-xl border border-slate-200 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="sm:col-span-2 text-sm font-semibold">
           Sale window (optional)
           <p className="font-normal text-xs text-ink-900/55 mt-0.5">

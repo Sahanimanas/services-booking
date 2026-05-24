@@ -91,7 +91,7 @@ function EmailForm({ next }: { next: string }) {
       <label className="block">
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold">Password</span>
-          <Link href="/forgot" className="text-xs text-accent-600 font-semibold">
+          <Link href="/forgot" className="text-xs text-red-600 font-semibold">
             Forgot Password?
           </Link>
         </div>
@@ -170,7 +170,7 @@ function MobileForm({ next }: { next: string }) {
         <label className="block">
           <span className="text-sm font-semibold">Mobile Number</span>
           <div className="mt-1 flex">
-            <span className="inline-flex items-center px-3 rounded-l-xl bg-brand-50 border border-r-0 border-brand-100 text-brand-700 font-semibold">
+            <span className="inline-flex items-center px-3 rounded-l-xl bg-slate-100 border border-r-0 border-slate-200 text-slate-700 font-semibold">
               +91
             </span>
             <input
@@ -203,7 +203,7 @@ function MobileForm({ next }: { next: string }) {
         <button
           type="button"
           onClick={() => setStep("phone")}
-          className="text-brand-600 underline"
+          className="text-slate-700 underline"
         >
           Change
         </button>
@@ -220,7 +220,7 @@ function MobileForm({ next }: { next: string }) {
           className="input mt-1 tracking-[0.5em] text-center text-lg"
         />
       </label>
-      {hint && <div className="text-xs text-brand-700 bg-brand-50 rounded-xl p-2">{hint}</div>}
+      {hint && <div className="text-xs text-slate-700 bg-slate-100 rounded-xl p-2">{hint}</div>}
       {err && (
         <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">
           {err}

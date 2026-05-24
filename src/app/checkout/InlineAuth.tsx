@@ -22,7 +22,7 @@ export default function InlineAuth({ onAuthed }: { onAuthed: (u: AuthedUser) => 
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-1 p-1 rounded-full bg-brand-50 mb-5 text-sm font-semibold">
+      <div className="grid grid-cols-3 gap-1 p-1 rounded-full bg-slate-100 mb-5 text-sm font-semibold">
         <TabBtn active={mode === "login-email"} onClick={() => setMode("login-email")}>
           ✉ Email
         </TabBtn>
@@ -56,7 +56,7 @@ function TabBtn({
       onClick={onClick}
       className={
         "py-2 rounded-full transition " +
-        (active ? "bg-white text-brand-700 shadow" : "text-ink-900/60")
+        (active ? "bg-white text-slate-900 shadow" : "text-ink-900/60")
       }
     >
       {children}
@@ -169,7 +169,7 @@ function MobileForm({ onAuthed }: { onAuthed: (u: AuthedUser) => void }) {
     return (
       <form onSubmit={sendOtp} className="space-y-3">
         <div className="flex">
-          <span className="inline-flex items-center px-3 rounded-l-xl bg-brand-50 border border-r-0 border-brand-100 text-brand-700 font-semibold">
+          <span className="inline-flex items-center px-3 rounded-l-xl bg-slate-100 border border-r-0 border-slate-200 text-slate-700 font-semibold">
             +91
           </span>
           <input
@@ -205,7 +205,7 @@ function MobileForm({ onAuthed }: { onAuthed: (u: AuthedUser) => void }) {
         <button
           type="button"
           onClick={() => setStep("phone")}
-          className="text-brand-600 underline"
+          className="text-slate-700 underline"
         >
           Change
         </button>
@@ -219,7 +219,7 @@ function MobileForm({ onAuthed }: { onAuthed: (u: AuthedUser) => void }) {
         placeholder="••••••"
         className="input tracking-[0.5em] text-center text-lg"
       />
-      {hint && <div className="text-xs text-brand-700 bg-brand-50 rounded-xl p-2">{hint}</div>}
+      {hint && <div className="text-xs text-slate-700 bg-slate-100 rounded-xl p-2">{hint}</div>}
       {err && (
         <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">
           {err}
@@ -267,7 +267,7 @@ function RegisterForm({ onAuthed }: { onAuthed: (u: AuthedUser) => void }) {
       <input name="name" required placeholder="Full name" className="input" />
       <input name="email" type="email" required placeholder="Email" className="input" />
       <div className="flex">
-        <span className="inline-flex items-center px-3 rounded-l-xl bg-brand-50 border border-r-0 border-brand-100 text-brand-700 font-semibold">
+        <span className="inline-flex items-center px-3 rounded-l-xl bg-slate-100 border border-r-0 border-slate-200 text-slate-700 font-semibold">
           +91
         </span>
         <input

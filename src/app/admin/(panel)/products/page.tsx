@@ -21,7 +21,7 @@ export default async function AdminProductsPage() {
       </div>
       <div className="card overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">Title</th>
               <th className="px-5 py-3">Category</th>
@@ -33,7 +33,7 @@ export default async function AdminProductsPage() {
           </thead>
           <tbody>
             {products.map((p) => (
-              <tr key={p.id} className="border-t border-brand-100/60">
+              <tr key={p.id} className="border-t border-slate-200/60">
                 <td className="px-5 py-3 font-medium">{p.title}</td>
                 <td className="px-5 py-3 text-ink-900/70">{p.category.name}</td>
                 <td className="px-5 py-3">{rupees(effectiveUnitCents(p))}</td>
@@ -48,7 +48,7 @@ export default async function AdminProductsPage() {
                   </span>
                 </td>
                 <td className="px-5 py-3 text-right whitespace-nowrap">
-                  <Link href={`/admin/products/${p.id}`} className="text-brand-600 font-semibold mr-3">
+                  <Link href={`/admin/products/${p.id}`} className="text-slate-700 font-semibold mr-3">
                     Edit
                   </Link>
                   <DeleteRowButton url={`/api/admin/products/${p.id}`} />

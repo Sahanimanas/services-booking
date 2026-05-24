@@ -96,7 +96,7 @@ export default function LocalityManager({ initial }: { initial: L[] }) {
 
       <div className="card overflow-x-auto lg:col-span-2">
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">Name</th>
               <th className="px-5 py-3">City</th>
@@ -108,7 +108,7 @@ export default function LocalityManager({ initial }: { initial: L[] }) {
           </thead>
           <tbody>
             {initial.map((l) => (
-              <tr key={l.id} className="border-t border-brand-100/60">
+              <tr key={l.id} className="border-t border-slate-200/60">
                 <td className="px-5 py-3 font-medium">{l.name}</td>
                 <td className="px-5 py-3">{l.city}</td>
                 <td className="px-5 py-3 text-ink-900/70">{l.pincode}</td>
@@ -125,7 +125,7 @@ export default function LocalityManager({ initial }: { initial: L[] }) {
                   </button>
                 </td>
                 <td className="px-5 py-3 text-right">
-                  <button type="button" onClick={() => remove(l.id)} className="text-accent-600 font-semibold">
+                  <button type="button" onClick={() => remove(l.id)} className="text-red-600 font-semibold">
                     Delete
                   </button>
                 </td>

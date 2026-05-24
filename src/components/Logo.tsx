@@ -88,7 +88,7 @@ export function BrandLogo({ compact = false }: { compact?: boolean }) {
           className={
             "font-extrabold tracking-tight " +
             (compact ? "text-base" : "text-lg") +
-            " text-brand-700"
+            " text-slate-900"
           }
         >
           Global Service <span className="text-accent-500">Mitra</span>

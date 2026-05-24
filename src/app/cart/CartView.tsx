@@ -100,12 +100,12 @@ export default function CartView() {
             <img
               src={s.imageUrl ?? "https://images.unsplash.com/photo-1631545806609-44f56f9b56b7?w=300"}
               alt={s.title}
-              className="w-24 h-24 rounded-xl object-cover bg-brand-50 flex-shrink-0"
+              className="w-24 h-24 rounded-xl object-cover bg-slate-100 flex-shrink-0"
             />
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <span className="inline-block text-xs font-semibold text-brand-600 uppercase">
+                  <span className="inline-block text-xs font-semibold text-slate-500 uppercase">
                     Service
                   </span>
                   <h3 className="font-bold truncate">{s.title}</h3>
@@ -125,7 +125,7 @@ export default function CartView() {
               <button
                 type="button"
                 onClick={() => remove(s.cartId)}
-                className="mt-3 text-accent-600 text-xs font-semibold hover:underline"
+                className="mt-3 text-red-600 text-xs font-semibold hover:underline"
               >
                 Remove
               </button>
@@ -139,12 +139,12 @@ export default function CartView() {
             <img
               src={p.imageUrl ?? "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?w=300"}
               alt={p.title}
-              className="w-24 h-24 rounded-xl object-cover bg-brand-50 flex-shrink-0"
+              className="w-24 h-24 rounded-xl object-cover bg-slate-100 flex-shrink-0"
             />
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <span className="inline-block text-xs font-semibold text-brand-600 uppercase">
+                  <span className="inline-block text-xs font-semibold text-slate-500 uppercase">
                     Product
                   </span>
                   <h3 className="font-bold truncate">{p.title}</h3>
@@ -158,7 +158,7 @@ export default function CartView() {
                 <button
                   type="button"
                   onClick={() => setQty(p.cartId, p.qty - 1)}
-                  className="w-8 h-8 rounded-lg border border-brand-100 hover:bg-brand-50"
+                  className="w-8 h-8 rounded-lg border border-slate-200 hover:bg-slate-50"
                   aria-label="Decrease"
                 >
                   −
@@ -167,7 +167,7 @@ export default function CartView() {
                 <button
                   type="button"
                   onClick={() => setQty(p.cartId, p.qty + 1)}
-                  className="w-8 h-8 rounded-lg border border-brand-100 hover:bg-brand-50"
+                  className="w-8 h-8 rounded-lg border border-slate-200 hover:bg-slate-50"
                   aria-label="Increase"
                 >
                   +
@@ -175,7 +175,7 @@ export default function CartView() {
                 <button
                   type="button"
                   onClick={() => remove(p.cartId)}
-                  className="ml-4 text-accent-600 text-xs font-semibold hover:underline"
+                  className="ml-4 text-red-600 text-xs font-semibold hover:underline"
                 >
                   Remove
                 </button>
@@ -190,11 +190,11 @@ export default function CartView() {
             onClick={() => {
               if (confirm("Clear the cart?")) clear();
             }}
-            className="text-sm text-ink-900/60 hover:text-accent-600"
+            className="text-sm text-ink-900/60 hover:text-red-600"
           >
             Clear cart
           </button>
-          <Link href="/services" className="text-sm text-brand-600 font-semibold hover:underline">
+          <Link href="/services" className="text-sm text-slate-700 font-semibold hover:underline">
             ← Continue browsing
           </Link>
         </div>
@@ -240,13 +240,13 @@ export default function CartView() {
                 </button>
               </form>
             ) : (
-              <div className="rounded-xl border border-brand-100 bg-brand-50 px-3 py-2 flex items-center justify-between">
+              <div className="rounded-xl border border-slate-200 bg-slate-100 px-3 py-2 flex items-center justify-between">
                 <div className="text-sm">
-                  <span className="font-bold text-brand-700">{couponCode}</span>{" "}
+                  <span className="font-bold text-slate-900">{couponCode}</span>{" "}
                   {couponDiscount > 0 ? (
                     <span className="text-ink-900/60">applied</span>
                   ) : (
-                    <span className="text-accent-700">— {couponError}</span>
+                    <span className="text-red-700">— {couponError}</span>
                   )}
                 </div>
                 <button
@@ -255,14 +255,14 @@ export default function CartView() {
                     setCoupon(null);
                     setCouponInput("");
                   }}
-                  className="text-xs text-accent-600 font-semibold"
+                  className="text-xs text-red-600 font-semibold"
                 >
                   Remove
                 </button>
               </div>
             )}
             {!couponCode && couponError && (
-              <p className="text-xs text-accent-700 mt-2">{couponError}</p>
+              <p className="text-xs text-red-700 mt-2">{couponError}</p>
             )}
           </div>
 
@@ -293,7 +293,7 @@ function Row({
     <div
       className={
         "flex justify-between " +
-        (accent ? "text-accent-700 font-semibold" : "text-ink-900/70") +
+        (accent ? "text-red-700 font-semibold" : "text-ink-900/70") +
         (bold ? " font-bold !text-ink-900" : "")
       }
     >

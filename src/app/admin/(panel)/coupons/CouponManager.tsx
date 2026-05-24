@@ -213,7 +213,7 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
 
       <div className="card overflow-x-auto lg:col-span-2">
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">Code</th>
               <th className="px-5 py-3">Discount</th>
@@ -226,7 +226,7 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
           </thead>
           <tbody>
             {initial.map((c) => (
-              <tr key={c.id} className="border-t border-brand-100/60">
+              <tr key={c.id} className="border-t border-slate-200/60">
                 <td className="px-5 py-3 font-bold tracking-wider">{c.code}</td>
                 <td className="px-5 py-3">
                   {c.kind === "PERCENT" ? `${c.value}%` : rupees(c.value)}
@@ -263,7 +263,7 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
                   <button
                     type="button"
                     onClick={() => remove(c.id)}
-                    className="text-accent-600 font-semibold"
+                    className="text-red-600 font-semibold"
                   >
                     Delete
                   </button>

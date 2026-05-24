@@ -15,7 +15,7 @@ export default function LoginPage({ searchParams }: { searchParams: { next?: str
           Don't have an account?{" "}
           <Link
             href={`/register${searchParams.next ? `?next=${searchParams.next}` : ""}`}
-            className="text-accent-600 font-semibold hover:underline"
+            className="text-red-600 font-semibold hover:underline"
           >
             Register Now
           </Link>

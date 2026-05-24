@@ -62,7 +62,7 @@ export default function AvailabilityEditor({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-brand-100 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="rounded-xl border border-slate-200 p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="block">
           <span className="text-xs font-semibold">Date</span>
           <input
@@ -105,7 +105,7 @@ export default function AvailabilityEditor({
         {items.map((it) => (
           <div
             key={it.id ?? it.date}
-            className="rounded-xl border border-brand-100 p-3 flex items-center justify-between"
+            className="rounded-xl border border-slate-200 p-3 flex items-center justify-between"
           >
             <div>
               <div className="font-semibold">
@@ -123,7 +123,7 @@ export default function AvailabilityEditor({
             <button
               type="button"
               onClick={() => remove(it.id)}
-              className="text-accent-600 text-sm font-semibold"
+              className="text-red-600 text-sm font-semibold"
             >
               Remove
             </button>

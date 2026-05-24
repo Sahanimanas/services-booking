@@ -38,7 +38,7 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-2 gap-10">
       <div>
-        <Link href="/services" className="text-brand-600 text-sm hover:underline">
+        <Link href="/services" className="text-slate-700 text-sm hover:underline">
           ← Back to services
         </Link>
         <div className="mt-4 card overflow-hidden">
@@ -50,7 +50,7 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
           />
         </div>
         <div className="mt-6">
-          <div className="text-sm text-brand-600 font-semibold uppercase">
+          <div className="text-sm text-slate-500 font-semibold uppercase">
             {service.category.name}
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold mt-1">{service.title}</h1>
@@ -62,11 +62,11 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
                 <span className="text-lg text-ink-900/40 line-through">
                   {rupees(service.priceCents)}
                 </span>
-                <span className="text-accent-600 font-semibold">{pct}% OFF</span>
+                <span className="text-red-600 font-semibold">{pct}% OFF</span>
               </>
             )}
             {pct > 0 && service.saleEndsAt && (
-              <span className="text-xs text-brand-700 bg-brand-50 rounded-full px-2 py-0.5">
+              <span className="text-xs text-slate-700 bg-slate-100 rounded-full px-2 py-0.5">
                 Sale ends {new Date(service.saleEndsAt).toLocaleDateString()}
               </span>
             )}
@@ -104,7 +104,7 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
 
 function Info({ icon, label, value }: { icon: string; label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-brand-100 p-3">
+    <div className="rounded-xl border border-slate-200 p-3">
       <div className="text-xs text-ink-900/50">
         {icon} {label}
       </div>

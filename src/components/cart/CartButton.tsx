@@ -8,7 +8,7 @@ export default function CartButton() {
   return (
     <Link
       href="/cart"
-      className="relative inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-brand-100 hover:bg-brand-50 transition"
+      className="relative inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-slate-200 hover:bg-slate-50 transition"
       aria-label="Cart"
     >
       <span className="text-lg">🛒</span>

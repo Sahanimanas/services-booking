@@ -157,7 +157,7 @@ export default function CheckoutView({ user: initialUser }: Props) {
             <h2 className="font-bold text-lg">Confirm & Pay</h2>
 
             {needsShipping && (
-              <div className="rounded-xl border border-brand-100 p-4 space-y-3">
+              <div className="rounded-xl border border-slate-200 p-4 space-y-3">
                 <div className="text-sm font-semibold">Shipping details (for products)</div>
                 <input
                   name="shipName"
@@ -235,13 +235,13 @@ export default function CheckoutView({ user: initialUser }: Props) {
               <span>{rupees(subtotalCents)}</span>
             </div>
             {couponCode && couponDiscount > 0 && (
-              <div className="flex justify-between text-accent-700 font-semibold">
+              <div className="flex justify-between text-red-700 font-semibold">
                 <span>Coupon {couponCode}</span>
                 <span>− {rupees(couponDiscount)}</span>
               </div>
             )}
             {couponCode && couponError && (
-              <div className="text-xs text-accent-700">{couponError}</div>
+              <div className="text-xs text-red-700">{couponError}</div>
             )}
             <div className="flex justify-between font-extrabold text-lg pt-2 border-t mt-2">
               <span>Total</span>
@@ -253,7 +253,7 @@ export default function CheckoutView({ user: initialUser }: Props) {
             <button
               type="button"
               onClick={() => setCoupon(null)}
-              className="block mt-3 text-xs text-accent-600 font-semibold mx-auto"
+              className="block mt-3 text-xs text-red-600 font-semibold mx-auto"
             >
               Remove coupon
             </button>
@@ -261,7 +261,7 @@ export default function CheckoutView({ user: initialUser }: Props) {
 
           <Link
             href="/cart"
-            className="block mt-4 text-center text-brand-600 text-sm font-semibold hover:underline"
+            className="block mt-4 text-center text-slate-700 text-sm font-semibold hover:underline"
           >
             ← Edit cart
           </Link>

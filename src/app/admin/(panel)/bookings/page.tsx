@@ -35,7 +35,7 @@ export default async function AdminBookingsPage({
 
       <div className="card overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">Booked</th>
               <th className="px-5 py-3">Customer</th>
@@ -48,7 +48,7 @@ export default async function AdminBookingsPage({
           </thead>
           <tbody>
             {bookings.map((b) => (
-              <tr key={b.id} className="border-t border-brand-100/60 align-top">
+              <tr key={b.id} className="border-t border-slate-200/60 align-top">
                 <td className="px-5 py-3 text-ink-900/70 whitespace-nowrap">
                   {new Date(b.createdAt).toLocaleDateString()}
                 </td>

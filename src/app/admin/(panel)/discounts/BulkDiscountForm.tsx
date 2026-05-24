@@ -182,7 +182,7 @@ export default function BulkDiscountForm({ categories }: { categories: Category[
           type="button"
           onClick={clearDiscount}
           disabled={busy}
-          className="btn-ghost text-accent-600"
+          className="btn-ghost text-red-600"
         >
           Clear discount on matches
         </button>

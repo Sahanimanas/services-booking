@@ -15,7 +15,7 @@ export default function RegisterPage({ searchParams }: { searchParams: { next?: 
           Already have an account?{" "}
           <Link
             href={`/login${searchParams.next ? `?next=${searchParams.next}` : ""}`}
-            className="text-accent-600 font-semibold hover:underline"
+            className="text-red-600 font-semibold hover:underline"
           >
             Sign in
           </Link>

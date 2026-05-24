@@ -36,14 +36,14 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="card mt-8">
-        <div className="flex items-center justify-between p-5 border-b border-brand-100">
+        <div className="flex items-center justify-between p-5 border-b border-slate-200">
           <h2 className="font-bold text-lg">Recent Bookings</h2>
-          <Link href="/admin/bookings" className="text-brand-600 text-sm font-semibold">
+          <Link href="/admin/bookings" className="text-slate-700 text-sm font-semibold">
             View all →
           </Link>
         </div>
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">When</th>
               <th className="px-5 py-3">Service</th>
@@ -54,7 +54,7 @@ export default async function AdminDashboard() {
           </thead>
           <tbody>
             {recent.map((b) => (
-              <tr key={b.id} className="border-t border-brand-100/60">
+              <tr key={b.id} className="border-t border-slate-200/60">
                 <td className="px-5 py-3 text-ink-900/70">
                   {new Date(b.createdAt).toLocaleString()}
                 </td>
@@ -105,7 +105,7 @@ function QuickCard({ href, title, desc }: { href: string; title: string; desc: s
     <Link href={href} className="card p-5 hover:-translate-y-0.5 transition">
       <div className="font-bold">{title}</div>
       <div className="text-sm text-ink-900/60 mt-1">{desc}</div>
-      <div className="mt-3 text-brand-600 text-sm font-semibold">Open →</div>
+      <div className="mt-3 text-slate-700 text-sm font-semibold">Open →</div>
     </Link>
   );
 }

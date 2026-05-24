@@ -103,7 +103,7 @@ export default async function HomePage() {
             <Reveal key={c.id} delay={i * 70}>
               <Link
                 href={`/services?cat=${c.slug}`}
-                className="card p-5 text-center group transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand-200 block"
+                className="card p-5 text-center group transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-slate-300 block"
               >
                 <div className="icon-tile w-12 h-12 mx-auto rounded-xl bg-brand-gradient flex items-center justify-center text-white text-xl">
                   {iconFor(c.slug)}
@@ -122,7 +122,7 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-end justify-between mb-6">
           <h2 className="text-2xl sm:text-3xl font-bold">Popular Services</h2>
-          <Link href="/services" className="text-brand-600 font-semibold hover:underline">
+          <Link href="/services" className="text-slate-700 font-semibold hover:underline">
             View all →
           </Link>
         </div>
@@ -147,10 +147,10 @@ export default async function HomePage() {
                   )}
                 </div>
                 <div className="p-5">
-                  <div className="text-xs text-brand-600 font-semibold uppercase tracking-wide">
+                  <div className="text-xs text-slate-500 font-semibold uppercase tracking-wide">
                     {s.category.name}
                   </div>
-                  <div className="font-bold mt-1 group-hover:text-brand-700">{s.title}</div>
+                  <div className="font-bold mt-1 group-hover:text-slate-900">{s.title}</div>
                   <div className="mt-3 flex items-end gap-2">
                     <span className="text-xl font-bold text-ink-900">{rupees(unitCents)}</span>
                     {pct > 0 && (

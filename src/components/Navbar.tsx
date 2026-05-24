@@ -2,11 +2,12 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import CartButton from "@/components/cart/CartButton";
 import { BrandLogo } from "@/components/Logo";
+import NavLink from "@/components/NavLink";
 
 export default async function Navbar() {
   const user = await getCurrentUser();
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-brand-100">
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <BrandLogo compact />
 
@@ -46,13 +47,3 @@ export default async function Navbar() {
   );
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="px-4 py-2 rounded-lg text-sm font-medium text-ink-900/80 hover:text-brand-700 hover:bg-brand-50 transition"
-    >
-      {children}
-    </Link>
-  );
-}

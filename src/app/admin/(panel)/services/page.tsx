@@ -23,7 +23,7 @@ export default async function AdminServicesPage() {
 
       <div className="card overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-brand-50/60 text-left">
+          <thead className="bg-slate-50/60 text-left">
             <tr>
               <th className="px-5 py-3">Title</th>
               <th className="px-5 py-3">Category</th>
@@ -37,7 +37,7 @@ export default async function AdminServicesPage() {
           </thead>
           <tbody>
             {services.map((s) => (
-              <tr key={s.id} className="border-t border-brand-100/60">
+              <tr key={s.id} className="border-t border-slate-200/60">
                 <td className="px-5 py-3 font-medium">{s.title}</td>
                 <td className="px-5 py-3 text-ink-900/70">{s.category.name}</td>
                 <td className="px-5 py-3">
@@ -45,7 +45,7 @@ export default async function AdminServicesPage() {
                   {effectiveDiscountPct(s) > 0 && (
                     <div className="text-xs text-ink-900/50">
                       {effectiveDiscountPct(s)}% off
-                      {isOnSale(s) && <span className="ml-1 text-brand-600">· on sale</span>}
+                      {isOnSale(s) && <span className="ml-1 text-slate-700">· on sale</span>}
                     </div>
                   )}
                   {s.discountPct > 0 && effectiveDiscountPct(s) === 0 && (
@@ -67,7 +67,7 @@ export default async function AdminServicesPage() {
                 <td className="px-5 py-3 text-right whitespace-nowrap">
                   <Link
                     href={`/admin/services/${s.id}`}
-                    className="text-brand-600 font-semibold mr-3"
+                    className="text-slate-700 font-semibold mr-3"
                   >
                     Edit
                   </Link>
