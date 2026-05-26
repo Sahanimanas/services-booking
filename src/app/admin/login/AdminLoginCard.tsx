@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ShieldIcon } from "@/components/Icons";
 
 export default function AdminLoginCard({ next }: { next: string }) {
   const router = useRouter();
@@ -37,11 +38,11 @@ export default function AdminLoginCard({ next }: { next: string }) {
   return (
     <div className="card p-8">
       <div className="text-center mb-6">
-        <div className="w-12 h-12 mx-auto rounded-xl bg-brand-gradient flex items-center justify-center text-white">
-          🛡
+        <div className="w-12 h-12 mx-auto rounded-xl border border-slate-300 flex items-center justify-center text-slate-700">
+          <ShieldIcon className="w-6 h-6" />
         </div>
-        <h1 className="mt-4 text-2xl font-extrabold">Admin Sign In</h1>
-        <p className="text-sm text-ink-900/60">Restricted area</p>
+        <h1 className="mt-4 text-2xl font-extrabold text-slate-900">Admin Sign In</h1>
+        <p className="text-sm text-slate-500">Restricted area</p>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-4">

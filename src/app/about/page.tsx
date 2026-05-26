@@ -10,11 +10,11 @@ export default function AboutPage() {
   return (
     <>
       <section className="bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-16 text-center">
           <Reveal>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900">
               About{" "}
-              <span className="bg-brand-gradient bg-clip-text text-transparent">
+              <span className="text-accent-500">
                 Global Service Mitra
               </span>
             </h1>
@@ -26,7 +26,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid lg:grid-cols-2 gap-10 items-center">
+      <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-16 grid lg:grid-cols-2 gap-10 items-center">
         <Reveal variant="left">
           <span className="chip-off">About Global Service Mitra</span>
           <h2 className="mt-4 text-3xl font-bold">
@@ -66,7 +66,7 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-8">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { k: "Mission", v: "Make trusted home services accessible to every Indian household." },

@@ -2,13 +2,22 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 export default function CancelButton({ id }: { id: string }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [busy, setBusy] = useState(false);
 
   async function cancel() {
-    if (!confirm("Cancel this booking?")) return;
+    const ok = await confirm({
+      title: "Cancel booking",
+      message: "Are you sure you want to cancel this booking?",
+      confirmText: "Cancel booking",
+      cancelText: "Keep it",
+      destructive: true,
+    });
+    if (!ok) return;
     setBusy(true);
     const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
     setBusy(false);

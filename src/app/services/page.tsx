@@ -56,10 +56,10 @@ export default async function ServicesPage({ searchParams }: { searchParams: SP 
     <>
       {/* Hero strip */}
       <section className="bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 text-center">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-14 text-center">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900">
             Services &amp;{" "}
-            <span className="bg-brand-gradient bg-clip-text text-transparent">Products</span>
+            <span className="text-accent-500">Products</span>
           </h1>
           <p className="text-slate-600 mt-2 text-sm">
             <Link href="/" className="hover:underline">
@@ -90,7 +90,7 @@ export default async function ServicesPage({ searchParams }: { searchParams: SP 
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-10">
         {/* Tabs */}
         <div className="flex items-center justify-center gap-2 mb-8">
           <Link

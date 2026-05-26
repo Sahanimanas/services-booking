@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 export default function DeleteRowButton({
   url,
@@ -13,10 +14,17 @@ export default function DeleteRowButton({
   confirmText?: string;
 }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [busy, setBusy] = useState(false);
 
   async function onClick() {
-    if (!confirm(confirmText)) return;
+    const ok = await confirm({
+      title: "Delete",
+      message: confirmText,
+      confirmText: "Delete",
+      destructive: true,
+    });
+    if (!ok) return;
     setBusy(true);
     const res = await fetch(url, { method: "DELETE" });
     setBusy(false);

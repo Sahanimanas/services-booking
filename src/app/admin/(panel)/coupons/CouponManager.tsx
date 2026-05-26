@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ConfirmDialog";
 import { rupees } from "@/lib/format";
 
 type Coupon = {
@@ -34,6 +35,7 @@ const empty: Omit<Coupon, "id" | "usedCount"> = {
 
 export default function CouponManager({ initial }: { initial: Coupon[] }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [form, setForm] = useState({ ...empty });
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -74,7 +76,13 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
   }
 
   async function remove(id: string) {
-    if (!confirm("Delete this coupon?")) return;
+    const ok = await confirm({
+      title: "Delete coupon",
+      message: "Delete this coupon? Existing orders that used it are not affected.",
+      confirmText: "Delete",
+      destructive: true,
+    });
+    if (!ok) return;
     const res = await fetch(`/api/admin/coupons/${id}`, { method: "DELETE" });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
@@ -105,6 +113,7 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
           />
           <div className="grid grid-cols-2 gap-2">
             <select
+              aria-label="Discount type"
               value={form.kind}
               onChange={(e) =>
                 setForm({ ...form, kind: e.target.value as "PERCENT" | "FLAT" })
@@ -119,13 +128,14 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
               min={1}
               max={form.kind === "PERCENT" ? 100 : undefined}
               placeholder={form.kind === "PERCENT" ? "% off" : "₹ off"}
+              aria-label={form.kind === "PERCENT" ? "Percent off" : "Flat rupees off"}
               value={form.value}
               onChange={(e) => setForm({ ...form, value: Number(e.target.value) })}
               className="input"
             />
           </div>
-          <div>
-            <label className="text-xs font-semibold">Min cart total (₹)</label>
+          <label className="block">
+            <span className="text-xs font-semibold">Min cart total (₹)</span>
             <input
               type="number"
               min={0}
@@ -135,10 +145,10 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
               }
               className="input mt-1"
             />
-          </div>
+          </label>
           {form.kind === "PERCENT" && (
-            <div>
-              <label className="text-xs font-semibold">Max discount cap (₹, optional)</label>
+            <label className="block">
+              <span className="text-xs font-semibold">Max discount cap (₹, optional)</span>
               <input
                 type="number"
                 min={0}
@@ -153,30 +163,30 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
                 }
                 className="input mt-1"
               />
-            </div>
+            </label>
           )}
           <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs font-semibold">Starts</label>
+            <label className="block">
+              <span className="text-xs font-semibold">Starts</span>
               <input
                 type="datetime-local"
                 value={form.startsAt}
                 onChange={(e) => setForm({ ...form, startsAt: e.target.value })}
                 className="input mt-1"
               />
-            </div>
-            <div>
-              <label className="text-xs font-semibold">Expires</label>
+            </label>
+            <label className="block">
+              <span className="text-xs font-semibold">Expires</span>
               <input
                 type="datetime-local"
                 value={form.expiresAt}
                 onChange={(e) => setForm({ ...form, expiresAt: e.target.value })}
                 className="input mt-1"
               />
-            </div>
+            </label>
           </div>
-          <div>
-            <label className="text-xs font-semibold">Usage limit (blank = unlimited)</label>
+          <label className="block">
+            <span className="text-xs font-semibold">Usage limit (blank = unlimited)</span>
             <input
               type="number"
               min={1}
@@ -186,7 +196,7 @@ export default function CouponManager({ initial }: { initial: Coupon[] }) {
               }
               className="input mt-1"
             />
-          </div>
+          </label>
           <label className="inline-flex items-center gap-2 text-sm">
             <input
               type="checkbox"

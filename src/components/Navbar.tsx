@@ -8,7 +8,7 @@ export default async function Navbar() {
   const user = await getCurrentUser();
   return (
     <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 h-16 flex items-center justify-between">
         <BrandLogo compact />
 
         <nav className="hidden md:flex items-center gap-1">

@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/components/cart/CartProvider";
+import { useConfirm } from "@/components/ConfirmDialog";
 import { rupees } from "@/lib/format";
 import type { ProductCartItem, ServiceCartItem } from "@/lib/cart-types";
 
 export default function CartView() {
   const { items, ready, subtotalCents, couponCode, setCoupon, setQty, remove, clear } = useCart();
+  const confirm = useConfirm();
   const [couponInput, setCouponInput] = useState("");
   const [couponBusy, setCouponBusy] = useState(false);
   const [couponDiscount, setCouponDiscount] = useState<number>(0);
@@ -187,8 +189,14 @@ export default function CartView() {
         <div className="flex justify-between items-center pt-2">
           <button
             type="button"
-            onClick={() => {
-              if (confirm("Clear the cart?")) clear();
+            onClick={async () => {
+              const ok = await confirm({
+                title: "Clear cart",
+                message: "Remove all items from your cart? This cannot be undone.",
+                confirmText: "Clear cart",
+                destructive: true,
+              });
+              if (ok) clear();
             }}
             className="text-sm text-ink-900/60 hover:text-red-600"
           >

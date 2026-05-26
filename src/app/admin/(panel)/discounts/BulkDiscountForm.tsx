@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 type Category = { id: string; name: string; slug: string };
 
 export default function BulkDiscountForm({ categories }: { categories: Category[] }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [target, setTarget] = useState<"services" | "products" | "both">("services");
   const [categoryId, setCategoryId] = useState<string>("all");
   const [discountPct, setDiscountPct] = useState<number>(20);
@@ -38,7 +40,12 @@ export default function BulkDiscountForm({ categories }: { categories: Category[
   }
 
   async function apply() {
-    if (!confirm("Apply this discount + sale window to all matching items?")) return;
+    const ok = await confirm({
+      title: "Apply discount",
+      message: "Apply this discount + sale window to all matching items?",
+      confirmText: "Apply",
+    });
+    if (!ok) return;
     setBusy(true);
     setErr(null);
     const res = await fetch("/api/admin/bulk-discount", {
@@ -64,8 +71,14 @@ export default function BulkDiscountForm({ categories }: { categories: Category[
   }
 
   async function clearDiscount() {
-    if (!confirm("Remove discount + sale window from matching items? (Sets discountPct to 0 and clears sale dates.)"))
-      return;
+    const ok = await confirm({
+      title: "Clear discount",
+      message:
+        "Remove discount + sale window from matching items? Sets discountPct to 0 and clears sale dates.",
+      confirmText: "Clear",
+      destructive: true,
+    });
+    if (!ok) return;
     setBusy(true);
     setErr(null);
     const res = await fetch("/api/admin/bulk-discount", {

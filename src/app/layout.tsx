@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/components/cart/CartProvider";
+import { ConfirmProvider } from "@/components/ConfirmDialog";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalservicemitra.in";
 
@@ -46,11 +47,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
-        <CartProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </CartProvider>
+        <ConfirmProvider>
+          <CartProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </CartProvider>
+        </ConfirmProvider>
       </body>
     </html>
   );

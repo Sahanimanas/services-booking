@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 type Item = { id?: string; date: string; slots: string; capacity: number };
 
@@ -13,6 +14,7 @@ export default function AvailabilityEditor({
   initial: Item[];
 }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [items, setItems] = useState<Item[]>(initial);
   const [date, setDate] = useState("");
   const [slots, setSlots] = useState("09:00,11:00,14:00,17:00");
@@ -46,7 +48,13 @@ export default function AvailabilityEditor({
 
   async function remove(id?: string) {
     if (!id) return;
-    if (!confirm("Remove this date?")) return;
+    const ok = await confirm({
+      title: "Remove date",
+      message: "Remove this availability date and its slots?",
+      confirmText: "Remove",
+      destructive: true,
+    });
+    if (!ok) return;
     setBusy(true);
     const res = await fetch(`/api/admin/services/${serviceId}/availability/${id}`, {
       method: "DELETE",

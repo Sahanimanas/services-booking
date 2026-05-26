@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 type L = {
   id: string;
@@ -14,6 +15,7 @@ type L = {
 
 export default function LocalityManager({ initial }: { initial: L[] }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [pincode, setPincode] = useState("");
@@ -50,7 +52,13 @@ export default function LocalityManager({ initial }: { initial: L[] }) {
   }
 
   async function remove(id: string) {
-    if (!confirm("Delete this locality?")) return;
+    const ok = await confirm({
+      title: "Delete locality",
+      message: "Delete this locality? Bookings in it will not be removed but it won't be available for new bookings.",
+      confirmText: "Delete",
+      destructive: true,
+    });
+    if (!ok) return;
     const res = await fetch(`/api/admin/localities/${id}`, { method: "DELETE" });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));

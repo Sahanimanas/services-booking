@@ -95,6 +95,19 @@ body {
   transform: scale(1);
 }
 
+/* Page backdrop — subtle slate base + faint corner washes + dot pattern.
+   Use as a wrapper on inner pages (cart, checkout, bookings) so they feel
+   filled without competing with content. */
+.page-backdrop {
+  background-color: #f8fafc; /* slate-50 */
+  background-image:
+    radial-gradient(circle at 100% 0%, rgba(249, 115, 22, 0.07) 0%, transparent 45%),
+    radial-gradient(circle at 0% 100%, rgba(29, 78, 216, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.05) 1px, transparent 0);
+  background-size: auto, auto, 28px 28px;
+  background-attachment: fixed, fixed, fixed;
+}
+
 /* Interactive card behaviour (hover lift + image zoom for group members) */
 @layer components {
   .card-interactive {

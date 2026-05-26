@@ -36,7 +36,7 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
   const finalCents = effectiveUnitCents(service);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-2 gap-10">
+    <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-10 grid lg:grid-cols-2 gap-10">
       <div>
         <Link href="/services" className="text-slate-700 text-sm hover:underline">
           ← Back to services
@@ -62,7 +62,7 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
                 <span className="text-lg text-ink-900/40 line-through">
                   {rupees(service.priceCents)}
                 </span>
-                <span className="text-red-600 font-semibold">{pct}% OFF</span>
+                <span className="text-accent-600 font-semibold">{pct}% OFF</span>
               </>
             )}
             {pct > 0 && service.saleEndsAt && (

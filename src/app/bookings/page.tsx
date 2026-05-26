@@ -32,9 +32,19 @@ export default async function BookingsPage({
   });
 
   return (
-    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <h1 className="text-3xl font-extrabold">My Bookings</h1>
-      <p className="text-ink-900/60 mt-1">Everything you've booked with Global Service Mitra.</p>
+    <div className="page-backdrop relative isolate overflow-hidden">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="https://images.unsplash.com/photo-1607435097405-db48f377bff6?w=1600&q=70"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute right-0 top-0 -z-10 h-96 w-1/2 object-cover opacity-[0.06]"
+      />
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-10">
+        <h1 className="text-3xl font-extrabold text-slate-900">My Bookings</h1>
+        <p className="text-slate-600 mt-1">
+          Everything you've booked with Global Service Mitra.
+        </p>
 
       {searchParams.created && (
         <div className="mt-5 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-green-800 text-sm">
@@ -86,6 +96,7 @@ export default async function BookingsPage({
           ))}
         </div>
       )}
-    </section>
+      </section>
+    </div>
   );
 }

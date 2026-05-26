@@ -139,11 +139,13 @@ export default function CheckoutView({ user: initialUser }: Props) {
         {!user ? (
           <InlineAuth onAuthed={(u) => setUser(u)} />
         ) : (
-          <div className="card p-6">
+          <div className="card p-6 bg-slate-50">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs uppercase text-ink-900/50">Signed in as</div>
-                <div className="font-semibold">{user.name ?? user.email ?? user.phone}</div>
+                <div className="text-xs uppercase text-slate-500">Signed in as</div>
+                <div className="font-semibold text-slate-900">
+                  {user.name ?? user.email ?? user.phone}
+                </div>
               </div>
               <span className="chip-off text-green-700 bg-green-50 border-green-200">
                 ✓ Verified
@@ -154,11 +156,13 @@ export default function CheckoutView({ user: initialUser }: Props) {
 
         {user && (
           <form onSubmit={onPlaceOrder} className="card p-6 space-y-4">
-            <h2 className="font-bold text-lg">Confirm & Pay</h2>
+            <h2 className="font-bold text-lg text-slate-900">Confirm &amp; Pay</h2>
 
             {needsShipping && (
-              <div className="rounded-xl border border-slate-200 p-4 space-y-3">
-                <div className="text-sm font-semibold">Shipping details (for products)</div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                <div className="text-sm font-semibold text-slate-900">
+                  Shipping details (for products)
+                </div>
                 <input
                   name="shipName"
                   required
@@ -203,39 +207,41 @@ export default function CheckoutView({ user: initialUser }: Props) {
 
       <aside className="lg:col-span-1">
         <div className="card p-6 sticky top-24">
-          <h2 className="font-bold text-lg mb-4">Order Summary</h2>
+          <h2 className="font-bold text-lg mb-4 text-slate-900">Order Summary</h2>
           <ul className="space-y-3 text-sm max-h-72 overflow-auto">
             {services.map((s) => (
               <li key={s.cartId} className="flex justify-between gap-3">
                 <span className="min-w-0">
-                  <span className="block font-medium truncate">{s.title}</span>
-                  <span className="block text-xs text-ink-900/50">
+                  <span className="block font-medium truncate text-slate-900">{s.title}</span>
+                  <span className="block text-xs text-slate-500">
                     {new Date(s.scheduledAt).toLocaleString()}
                   </span>
                 </span>
-                <span className="font-semibold whitespace-nowrap">{rupees(s.unitCents)}</span>
+                <span className="font-semibold whitespace-nowrap text-slate-900">
+                  {rupees(s.unitCents)}
+                </span>
               </li>
             ))}
             {products.map((p) => (
               <li key={p.cartId} className="flex justify-between gap-3">
                 <span className="min-w-0">
-                  <span className="block font-medium truncate">{p.title}</span>
-                  <span className="block text-xs text-ink-900/50">Qty {p.qty}</span>
+                  <span className="block font-medium truncate text-slate-900">{p.title}</span>
+                  <span className="block text-xs text-slate-500">Qty {p.qty}</span>
                 </span>
-                <span className="font-semibold whitespace-nowrap">
+                <span className="font-semibold whitespace-nowrap text-slate-900">
                   {rupees(p.unitCents * p.qty)}
                 </span>
               </li>
             ))}
           </ul>
 
-          <div className="border-t pt-3 mt-4 space-y-1 text-sm">
-            <div className="flex justify-between text-ink-900/70">
+          <div className="mt-4 rounded-xl bg-slate-50 border border-slate-200 p-4 space-y-1 text-sm">
+            <div className="flex justify-between text-slate-600">
               <span>Subtotal</span>
               <span>{rupees(subtotalCents)}</span>
             </div>
             {couponCode && couponDiscount > 0 && (
-              <div className="flex justify-between text-red-700 font-semibold">
+              <div className="flex justify-between text-accent-600 font-semibold">
                 <span>Coupon {couponCode}</span>
                 <span>− {rupees(couponDiscount)}</span>
               </div>
@@ -243,7 +249,7 @@ export default function CheckoutView({ user: initialUser }: Props) {
             {couponCode && couponError && (
               <div className="text-xs text-red-700">{couponError}</div>
             )}
-            <div className="flex justify-between font-extrabold text-lg pt-2 border-t mt-2">
+            <div className="flex justify-between font-extrabold text-lg pt-2 mt-1 border-t border-slate-200 text-slate-900">
               <span>Total</span>
               <span>{rupees(totalCents)}</span>
             </div>

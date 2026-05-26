@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ConfirmDialog";
 
 type Cat = {
   id: string;
@@ -14,6 +15,7 @@ type Cat = {
 
 export default function CategoryManager({ initial }: { initial: Cat[] }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [icon, setIcon] = useState("");
@@ -41,7 +43,13 @@ export default function CategoryManager({ initial }: { initial: Cat[] }) {
   }
 
   async function remove(id: string) {
-    if (!confirm("Delete this category? Services/products under it will not be deletable if linked.")) return;
+    const ok = await confirm({
+      title: "Delete category",
+      message: "Delete this category? Services/products under it will not be deletable if linked.",
+      confirmText: "Delete",
+      destructive: true,
+    });
+    if (!ok) return;
     const res = await fetch(`/api/admin/categories/${id}`, { method: "DELETE" });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
