@@ -9,26 +9,46 @@ export const revalidate = 60;
 
 // Public-domain / Unsplash-licensed servicing photos.
 // Unsplash license allows free commercial use without attribution.
-const SERVICE_TILES = [
+const SERVICE_HIGHLIGHTS = [
   {
-    src: "https://images.unsplash.com/photo-1631545806609-44f56f9b56b7?w=900&q=80",
-    label: "AC Repair",
+    slug: "ac",
+    label: "AC Repair & Service",
+    src: "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=1200&q=80",
+    blurb:
+      "Cooling not what it used to be? Our technicians handle installation, gas refilling, and deep servicing for split and window ACs — so your home stays comfortable through the hottest months.",
+    points: ["Split & window AC", "Gas refilling & leak fix", "Annual maintenance plans"],
   },
   {
-    src: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=900&q=80",
-    label: "Refrigerator",
+    slug: "refrigerator",
+    label: "Refrigerator Repair",
+    src: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=1200&q=80",
+    blurb:
+      "From cooling failures to strange noises, we diagnose and fix single-door, double-door, and side-by-side refrigerators of every brand — fast, so your food stays fresh.",
+    points: ["All brands & models", "Compressor & thermostat", "Same-day diagnosis"],
   },
   {
-    src: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=900&q=80",
-    label: "Washing Machine",
+    slug: "washing-machine",
+    label: "Washing Machine Repair",
+    src: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=1200&q=80",
+    blurb:
+      "Drum not spinning or water not draining? We service top-load, front-load, and semi-automatic machines, replacing worn parts with genuine components.",
+    points: ["Top & front load", "Drainage & spin issues", "Genuine spare parts"],
   },
   {
-    src: "https://images.unsplash.com/photo-1607435097405-db48f377bff6?w=900&q=80",
-    label: "Plumbing",
+    slug: "plumbing",
+    label: "Plumbing Services",
+    src: "https://images.unsplash.com/photo-1607435097405-db48f377bff6?w=1200&q=80",
+    blurb:
+      "Leaky taps, blocked drains, or a full bathroom fit-out — our plumbers arrive equipped to solve it cleanly the first time, with no mess left behind.",
+    points: ["Leak & blockage fixes", "Tap & fitting installs", "Kitchen & bath plumbing"],
   },
   {
-    src: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=900&q=80",
-    label: "Electrician",
+    slug: "electrician",
+    label: "Electrician Services",
+    src: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&q=80",
+    blurb:
+      "Faulty switches, tripping circuits, or new wiring — our licensed electricians work safely to code, keeping your home powered and protected.",
+    points: ["Wiring & switchboards", "Fault & short-circuit fix", "Safety-first, to code"],
   },
 ];
 
@@ -46,27 +66,32 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero — full-bleed with servicing background */}
-      <section className="relative isolate overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=2400&q=80"
-          alt="A professional technician at work"
+      {/* Hero — full-screen video background */}
+      <section className="relative isolate overflow-hidden min-h-screen -mt-[4.75rem] flex items-center">
+        <video
           className="absolute inset-0 -z-10 h-full w-full object-cover"
-        />
-        {/* Light wash so the white-styled foreground stays legible */}
-        <div className="absolute inset-0 -z-10 bg-white/85 backdrop-blur-sm" />
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        >
+          <source src="/hero-vid.mp4" type="video/mp4" />
+        </video>
+        {/* Minimal left-weighted wash — video stays clear; a soft text-halo keeps the heading legible */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/75 via-white/30 to-transparent" />
 
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
-          <Reveal variant="left">
+        <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-16">
+          <Reveal variant="left" className="max-w-2xl">
             <span className="chip-off mb-5">★ Trusted by 10,000+ households</span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 [text-shadow:0_2px_18px_rgba(255,255,255,0.9)]">
               Expert Home Services. <br />
               <span className="text-accent-500">
                 Trusted Professionals.
               </span>
             </h1>
-            <p className="mt-5 text-lg text-slate-700 max-w-xl">
+            <p className="mt-5 text-lg text-slate-700 max-w-xl [text-shadow:0_1px_12px_rgba(255,255,255,0.95)]">
               Reliable repairs, certified technicians, and same-day appointments — book the right
               pro for your home in minutes.
             </p>
@@ -82,18 +107,6 @@ export default async function HomePage() {
               <span>★ 5-Star Rated</span>
               <span>🛡️ Licensed &amp; Insured</span>
               <span>📅 Same-Day Appointments</span>
-            </div>
-          </Reveal>
-          <Reveal variant="right" delay={120}>
-            <div className="relative group">
-              <div className="relative card p-2 overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1400&q=80"
-                  alt="GSM technician at work"
-                  className="aspect-[4/3] w-full rounded-2xl object-cover zoom-on-hover"
-                />
-              </div>
             </div>
           </Reveal>
         </div>
@@ -164,23 +177,62 @@ export default async function HomePage() {
               </p>
             </div>
           </Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-            {SERVICE_TILES.map((t, i) => (
-              <Reveal key={t.label} delay={i * 60}>
-                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden group ring-1 ring-slate-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={t.src}
-                    alt={t.label}
-                    className="absolute inset-0 w-full h-full object-cover zoom-on-hover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3 text-white font-semibold text-sm">
-                    {t.label}
+          <div className="space-y-14 lg:space-y-20">
+            {SERVICE_HIGHLIGHTS.map((s, i) => {
+              const reversed = i % 2 === 1;
+              return (
+                <Reveal key={s.slug} variant={reversed ? "right" : "left"}>
+                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    {/* Image */}
+                    <div
+                      className={
+                        "relative aspect-[16/10] rounded-3xl overflow-hidden ring-1 ring-slate-200 shadow-soft group " +
+                        (reversed ? "lg:order-2" : "")
+                      }
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={s.src}
+                        alt={s.label}
+                        className="absolute inset-0 w-full h-full object-cover zoom-on-hover"
+                      />
+                    </div>
+
+                    {/* Text */}
+                    <div className={reversed ? "lg:order-1" : ""}>
+                      <span
+                        className={
+                          "inline-flex h-10 w-10 items-center justify-center rounded-xl font-bold text-white " +
+                          (i % 2 === 0 ? "bg-brand-600" : "bg-accent-500")
+                        }
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="mt-4 text-2xl sm:text-3xl font-bold text-slate-900">
+                        {s.label}
+                      </h3>
+                      <p className="mt-3 text-slate-600 max-w-xl">{s.blurb}</p>
+                      <ul className="mt-5 grid sm:grid-cols-2 gap-x-6 gap-y-2">
+                        {s.points.map((p) => (
+                          <li key={p} className="flex items-center gap-2 text-slate-700">
+                            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-100 text-accent-600 text-xs font-bold">
+                              ✓
+                            </span>
+                            {p}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link
+                        href={`/services?cat=${s.slug}`}
+                        className="mt-6 inline-flex btn-outline px-5 py-2.5"
+                      >
+                        Explore {s.label} →
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

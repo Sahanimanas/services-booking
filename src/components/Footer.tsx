@@ -52,14 +52,15 @@ export default function Footer() {
         <div>
           <h4 className="font-semibold mb-4 text-slate-300">Contact Us</h4>
           <ul className="space-y-3 text-white/70 text-sm">
-            <li>📞 +91 70617 77333</li>
-            <li>✉️ support@globalservicemitra.in</li>
-            <li>📍  Patna </li>
+            <li>📞 +91 98011 26444</li>
+            <li>✉️ support@globalservicemitra.com</li>
+            <li>📍 Laxmi Palace, Boring Road, Patna, Bihar</li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10 py-5 text-center text-white/50 text-xs">
-        © {new Date().getFullYear()} Global Service Mitra · All rights reserved
+        © {new Date().getFullYear()} Global Service Mitra · A unit of Arpan Smart Services Private
+        Limited · All rights reserved
       </div>
     </footer>
   );

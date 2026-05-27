@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { ConfirmProvider } from "@/components/ConfirmDialog";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalservicemitra.in";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://globalservicemitra.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
