@@ -48,18 +48,18 @@ const strengths = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero — soft brand gradient */}
-      <section className="bg-brand-soft border-b border-slate-200">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-16 text-center">
+      {/* Hero — brand gradient, extends up behind the glass navbar */}
+      <section className="relative -mt-[4.75rem] bg-brand-gradient">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-16 text-center">
           <Reveal>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900">
-              About <span className="text-accent-500">Global Service Mitra</span>
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-sm">
+              About Global Service Mitra
             </h1>
-            <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
+            <p className="mt-3 text-white/85 max-w-2xl mx-auto">
               Smart Solutions for Every Home — reliable, affordable home and technical services for
               residential, commercial, and institutional customers.
             </p>
-            <p className="mt-2 text-xs uppercase tracking-[0.18em] text-brand-700/70">
+            <p className="mt-2 text-xs uppercase tracking-[0.18em] text-white/70">
               A unit of Arpan Smart Services Private Limited
             </p>
           </Reveal>

@@ -79,8 +79,8 @@ export default async function HomePage() {
         >
           <source src="/hero-vid.mp4" type="video/mp4" />
         </video>
-        {/* Minimal left-weighted wash — video stays clear; a soft text-halo keeps the heading legible */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/75 via-white/30 to-transparent" />
+        {/* Very light left-only wash — video stays clear; the text-halo carries legibility */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/45 via-white/10 to-transparent" />
 
         <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-16">
           <Reveal variant="left" className="max-w-2xl">

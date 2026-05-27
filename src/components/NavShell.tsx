@@ -22,10 +22,10 @@ export default function NavShell({ children }: { children: React.ReactNode }) {
     <header className="sticky top-0 z-50 px-3 sm:px-5 lg:px-8 pt-3">
       <div
         className={
-          "max-w-screen-2xl mx-auto rounded-2xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between transition-colors duration-300 " +
+          "max-w-screen-2xl mx-auto rounded-2xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between backdrop-blur-xl ring-1 transition duration-300 " +
           (scrolled
-            ? "bg-white/85 backdrop-blur ring-1 ring-slate-200 shadow-soft"
-            : "bg-transparent")
+            ? "bg-white/65 ring-white/60 shadow-soft"
+            : "bg-white/25 ring-white/40 shadow-lg shadow-slate-900/5")
         }
       >
         {children}

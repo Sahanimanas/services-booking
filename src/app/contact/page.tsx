@@ -10,11 +10,13 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-slate-50 border-b border-slate-200">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-16 text-center">
+      <section className="relative -mt-[4.75rem] bg-brand-gradient">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-16 text-center">
           <Reveal>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900">Contact Us</h1>
-            <p className="mt-3 text-slate-600">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-sm">
+              Contact Us
+            </h1>
+            <p className="mt-3 text-white/80">
               We are here to help! Get in touch with our team.
             </p>
           </Reveal>

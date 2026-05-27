@@ -54,15 +54,14 @@ export default async function ServicesPage({ searchParams }: { searchParams: SP 
 
   return (
     <>
-      {/* Hero strip */}
-      <section className="bg-slate-50 border-b border-slate-200">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-14 text-center">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900">
-            Services &amp;{" "}
-            <span className="text-accent-500">Products</span>
+      {/* Hero strip — branded gradient, extends up behind the glass navbar */}
+      <section className="relative -mt-[4.75rem] bg-brand-gradient">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-16 text-center">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-sm">
+            Services &amp; Products
           </h1>
-          <p className="text-slate-600 mt-2 text-sm">
-            <Link href="/" className="hover:underline">
+          <p className="text-white/80 mt-2 text-sm">
+            <Link href="/" className="hover:text-white hover:underline">
               Home
             </Link>{" "}
             · Services &amp; Products
@@ -77,7 +76,7 @@ export default async function ServicesPage({ searchParams }: { searchParams: SP 
                 name="q"
                 defaultValue={q}
                 placeholder={`Search ${tab}...`}
-                className="w-full rounded-full px-6 py-4 pr-32 bg-white border border-slate-200 text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200/70 transition"
+                className="w-full rounded-full px-6 py-4 pr-32 bg-white border border-white/60 text-slate-900 shadow-lg shadow-slate-900/10 outline-none focus:ring-2 focus:ring-white/70 transition"
               />
               <button
                 type="submit"
@@ -157,7 +156,7 @@ function ServiceGrid({ services }: { services: any[] }) {
               <div className="relative aspect-video overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={s.imageUrl ?? "https://images.unsplash.com/photo-1631545806609-44f56f9b56b7?w=900"}
+                  src={s.imageUrl ?? "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=900"}
                   alt={s.title}
                   className="absolute inset-0 w-full h-full object-cover zoom-on-hover"
                 />

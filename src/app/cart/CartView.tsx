@@ -100,7 +100,7 @@ export default function CartView() {
           <div key={s.cartId} className="card p-5 flex gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={s.imageUrl ?? "https://images.unsplash.com/photo-1631545806609-44f56f9b56b7?w=300"}
+              src={s.imageUrl ?? "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=300"}
               alt={s.title}
               className="w-24 h-24 rounded-xl object-cover bg-slate-100 flex-shrink-0"
             />

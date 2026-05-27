@@ -44,7 +44,7 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
         <div className="mt-4 card overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={service.imageUrl ?? "https://images.unsplash.com/photo-1631545806609-44f56f9b56b7?w=1200"}
+            src={service.imageUrl ?? "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=1200"}
             alt={service.title}
             className="aspect-video w-full object-cover"
           />
