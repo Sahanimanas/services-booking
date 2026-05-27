@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 const Body = z.object({
   title: z.string().trim().min(1),
@@ -35,6 +36,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
         saleEndsAt: saleEndsAt ? new Date(saleEndsAt) : null,
       },
     });
+    revalidateStorefront();
     return NextResponse.json({ ok: true });
   } catch (e: any) {
     if (e?.code === "P2002") {
@@ -48,6 +50,7 @@ export async function DELETE(_: Request, { params }: { params: { id: string } })
   await requireAdmin();
   try {
     await prisma.service.delete({ where: { id: params.id } });
+    revalidateStorefront();
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(

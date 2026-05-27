@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 const Body = z.object({
   date: z.string().min(1),
@@ -32,5 +33,6 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     update: { slots: parsed.data.slots, capacity: parsed.data.capacity },
   });
 
+  revalidateStorefront();
   return NextResponse.json({ ok: true, id: row.id });
 }

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 const Body = z.object({
   title: z.string().trim().min(1),
@@ -43,6 +44,7 @@ export async function POST(req: Request) {
         saleEndsAt: saleEndsAt ? new Date(saleEndsAt) : null,
       },
     });
+    revalidateStorefront();
     return NextResponse.json({ ok: true, id: service.id });
   } catch (e: any) {
     if (e?.code === "P2002") {

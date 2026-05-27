@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 const Body = z.object({
   target: z.enum(["services", "products", "both"]),
@@ -40,5 +41,6 @@ export async function POST(req: Request) {
     products = r.count;
   }
 
+  revalidateStorefront();
   return NextResponse.json({ ok: true, services, products });
 }

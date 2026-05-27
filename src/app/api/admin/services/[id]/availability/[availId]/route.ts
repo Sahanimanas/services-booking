@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 export async function DELETE(
   _: Request,
@@ -8,5 +9,6 @@ export async function DELETE(
 ) {
   await requireAdmin();
   await prisma.serviceAvailability.delete({ where: { id: params.availId } });
+  revalidateStorefront();
   return NextResponse.json({ ok: true });
 }

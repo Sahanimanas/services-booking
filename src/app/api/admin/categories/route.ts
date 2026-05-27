@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateStorefront } from "@/lib/revalidate";
 
 const Body = z.object({
   name: z.string().trim().min(1),
@@ -18,6 +19,7 @@ export async function POST(req: Request) {
     const cat = await prisma.category.create({
       data: { name: parsed.data.name, slug: parsed.data.slug, icon: parsed.data.icon ?? null },
     });
+    revalidateStorefront();
     return NextResponse.json({ ok: true, id: cat.id });
   } catch (e: any) {
     if (e?.code === "P2002") {
