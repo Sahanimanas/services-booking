@@ -52,6 +52,16 @@ const SERVICE_HIGHLIGHTS = [
   },
 ];
 
+// Per-card colour palette for the category tiles (cycled by index).
+const CATEGORY_TILES = [
+  "bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
+  "bg-orange-100 text-orange-600 group-hover:bg-orange-600 group-hover:text-white",
+  "bg-emerald-100 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white",
+  "bg-violet-100 text-violet-600 group-hover:bg-violet-600 group-hover:text-white",
+  "bg-rose-100 text-rose-600 group-hover:bg-rose-600 group-hover:text-white",
+  "bg-cyan-100 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white",
+];
+
 export default async function HomePage() {
   const categories = await prisma.category.findMany({
     orderBy: { name: "asc" },
@@ -153,7 +163,12 @@ export default async function HomePage() {
                 href={`/services?cat=${c.slug}`}
                 className="card p-5 text-center group transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-slate-300 block"
               >
-                <div className="icon-tile w-12 h-12 mx-auto rounded-xl border border-slate-300 flex items-center justify-center text-slate-700 group-hover:border-slate-400 group-hover:text-slate-900 transition">
+                <div
+                  className={
+                    "w-12 h-12 mx-auto rounded-xl flex items-center justify-center transition duration-300 " +
+                    CATEGORY_TILES[i % CATEGORY_TILES.length]
+                  }
+                >
                   <CategoryIcon slug={c.slug} className="w-6 h-6" />
                 </div>
                 <div className="mt-3 font-semibold text-sm">{c.name}</div>
@@ -167,7 +182,7 @@ export default async function HomePage() {
       </section>
 
       {/* Image strip — "real work, every day" */}
-      <section className="relative isolate overflow-hidden bg-slate-50 border-y border-slate-200">
+      <section className="relative isolate overflow-hidden bg-slate-200 border-y border-slate-300">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-16">
           <Reveal>
             <div className="text-center mb-10">
