@@ -1,4 +1,5 @@
 import { prisma } from "./db";
+import { otpEmailHtml, sendMail } from "./mailer";
 
 const OTP_TTL_MIN = 10;
 
@@ -13,8 +14,24 @@ export async function issueOtp(phone: string): Promise<string> {
   const expiresAt = new Date(Date.now() + OTP_TTL_MIN * 60_000);
   await prisma.otpCode.create({ data: { phone, code, expiresAt } });
 
-  // In production, integrate an SMS gateway here (Twilio / MSG91 / etc).
-  // For now we log to the server console so devs can read the OTP.
+  // If the phone is registered to a user with an email, deliver the code via email.
+  const user = await prisma.user.findUnique({
+    where: { phone },
+    select: { email: true, name: true },
+  });
+
+  if (user?.email) {
+    sendMail({
+      to: user.email,
+      subject: "Your Global Service Mitra login code",
+      html: otpEmailHtml(code, user.name),
+      text: `Your login code is ${code}. It expires in ${OTP_TTL_MIN} minutes.`,
+    }).catch((e) => {
+      // eslint-disable-next-line no-console
+      console.error("[OTP] email send failed:", e);
+    });
+  }
+
   if (process.env.NODE_ENV !== "production") {
     // eslint-disable-next-line no-console
     console.log(`[OTP] phone=${phone} code=${code}`);

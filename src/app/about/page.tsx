@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata = {
   title: "About Us",
   description:
-    "Global Service Mitra (a unit of Arpan Smart Services Private Limited) — a professional home and technical service company delivering reliable, affordable, high-quality solutions.",
+    "Global Service Mitra (a unit of Global Service Mitra Private Limited) — a professional home and technical service company delivering reliable, affordable, high-quality solutions.",
 };
 
 const coreValues = [
@@ -60,7 +60,7 @@ export default function AboutPage() {
               residential, commercial, and institutional customers.
             </p>
             <p className="mt-2 text-xs uppercase tracking-[0.18em] text-white/70">
-              A unit of Arpan Smart Services Private Limited
+              A unit of Global Service Mitra Private Limited
             </p>
           </Reveal>
         </div>

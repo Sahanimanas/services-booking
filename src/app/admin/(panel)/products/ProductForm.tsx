@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 type Category = { id: string; name: string };
 type Product = {
@@ -180,15 +181,7 @@ export default function ProductForm({
         </label>
       </div>
 
-      <label className="block">
-        <span className="text-sm font-semibold">Image URL (optional)</span>
-        <input
-          name="imageUrl"
-          type="url"
-          defaultValue={product?.imageUrl ?? ""}
-          className="input mt-1"
-        />
-      </label>
+      <ImageUpload name="imageUrl" defaultValue={product?.imageUrl} label="Image" />
       <label className="inline-flex items-center gap-2">
         <input type="checkbox" name="active" defaultChecked={product?.active ?? true} />
         <span className="text-sm">Active</span>

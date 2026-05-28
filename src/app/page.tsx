@@ -76,49 +76,175 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero — full-screen video background */}
-      <section className="relative isolate overflow-hidden min-h-screen -mt-[4.75rem] flex items-center">
-        <video
-          className="absolute inset-0 -z-10 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
+      {/* Hero — left copy + right image collage (Urban Company style) */}
+      <section className="relative isolate overflow-hidden min-h-screen flex items-center -mt-[5rem] bg-gradient-to-br from-white via-slate-50 to-orange-50/40">
+        {/* soft decorative blobs */}
+        <div
           aria-hidden="true"
-        >
-          <source src="/hero-vid.mp4" type="video/mp4" />
-        </video>
-        {/* Very light left-only wash — video stays clear; the text-halo carries legibility */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/45 via-white/10 to-transparent" />
+          className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-accent-500/10 blur-3xl"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -bottom-24 right-1/3 h-[28rem] w-[28rem] rounded-full bg-brand-500/10 blur-3xl"
+        />
 
-        <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-16">
-          <Reveal variant="left" className="max-w-2xl">
-            <span className="chip-off mb-5">★ Trusted by 10,000+ households</span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 [text-shadow:0_2px_18px_rgba(255,255,255,0.9)]">
-              Expert Home Services. <br />
-              <span className="text-accent-500">
-                Trusted Professionals.
-              </span>
-            </h1>
-            <p className="mt-5 text-lg text-slate-700 max-w-xl [text-shadow:0_1px_12px_rgba(255,255,255,0.95)]">
-              Reliable repairs, certified technicians, and same-day appointments — book the right
-              pro for your home in minutes.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/services" className="btn-primary">
-                Book a Service
-              </Link>
-              <Link href="/contact" className="btn-outline">
-                Speak with Specialist
-              </Link>
+        <div className="relative max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-32 pb-16">
+          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center">
+            <div className="relative">
+              {/* Decorative backdrop behind the text */}
+              {/* Dot-grid pattern, top-left */}
+              <div
+                aria-hidden="true"
+                className="hero-dot-grid pointer-events-none absolute -top-6 -left-4 w-44 h-44 opacity-50"
+              />
+              {/* Soft glow halo behind the headline */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute top-24 -left-10 w-80 h-80 rounded-full bg-gradient-to-br from-accent-500/15 via-rose-400/10 to-amber-400/15 blur-3xl"
+              />
+              {/* Decorative sparkles */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="pointer-events-none absolute top-2 right-6 sm:right-16 w-8 h-8 text-accent-500/70 animate-pulse"
+                fill="currentColor"
+              >
+                <path d="M12 0l2.4 7.6L22 10l-7.6 2.4L12 20l-2.4-7.6L2 10l7.6-2.4z" />
+              </svg>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="pointer-events-none absolute top-44 -left-2 w-5 h-5 text-rose-400/60"
+                fill="currentColor"
+              >
+                <path d="M12 0l2.4 7.6L22 10l-7.6 2.4L12 20l-2.4-7.6L2 10l7.6-2.4z" />
+              </svg>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="pointer-events-none absolute bottom-20 right-12 w-6 h-6 text-amber-400/60"
+                fill="currentColor"
+              >
+                <path d="M12 0l2.4 7.6L22 10l-7.6 2.4L12 20l-2.4-7.6L2 10l7.6-2.4z" />
+              </svg>
+              {/* Curved swoosh line */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 400 200"
+                className="pointer-events-none absolute -bottom-4 -left-6 w-72 h-36 opacity-50"
+                fill="none"
+              >
+                <path
+                  d="M 10 180 Q 100 60 200 120 T 380 40"
+                  stroke="url(#hero-swoosh)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeDasharray="4 8"
+                />
+                <defs>
+                  <linearGradient id="hero-swoosh" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="0%" stopColor="rgb(249,115,22)" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="rgb(244,63,94)" stopOpacity="0.2" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              {/* Small floating accent ring */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute top-10 -right-2 w-16 h-16 rounded-full border-2 border-dashed border-accent-400/40 animate-[spin_18s_linear_infinite]"
+              />
+
+              <Reveal variant="left" className="relative">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/80 backdrop-blur px-4 py-1.5 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 shadow-sm mb-6">
+                  <span className="text-accent-500">★</span> Trusted by 10,000+ households
+                </span>
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.05]">
+                  Home services <br />
+                  at your{" "}
+                  <span className="relative inline-block">
+                    <span className="bg-gradient-to-r from-accent-500 via-rose-500 to-amber-500 bg-clip-text text-transparent">
+                      doorstep
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-0 right-0 -bottom-2 h-2 bg-gradient-to-r from-accent-500/30 via-rose-500/30 to-amber-500/30 rounded-full blur-sm"
+                    />
+                  </span>
+                </h1>
+                <p className="mt-6 text-lg text-slate-600 max-w-xl">
+                  Verified professionals, transparent pricing, and same-day appointments — book the
+                  right pro for your home in minutes.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <Link href="/services" className="btn-primary shadow-lg shadow-slate-900/10">
+                    Book a Service
+                  </Link>
+                  <Link href="/contact" className="btn-outline">
+                    Speak with Specialist
+                  </Link>
+                </div>
+                <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm font-medium text-slate-600">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="text-amber-500">★</span> 5-Star Rated
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <span>🛡️</span> Licensed &amp; Insured
+                  </span>
+                  <span className="inline-flex items-center gap-2">
+                    <span>📅</span> Same-Day Appointments
+                  </span>
+                </div>
+              </Reveal>
             </div>
-            <div className="mt-8 flex flex-wrap gap-6 text-sm text-slate-700">
-              <span>★ 5-Star Rated</span>
-              <span>🛡️ Licensed &amp; Insured</span>
-              <span>📅 Same-Day Appointments</span>
-            </div>
-          </Reveal>
+
+            <Reveal variant="right">
+              <div className="relative grid grid-cols-2 gap-3 sm:gap-4">
+                {/* Tall left column */}
+                <div className="space-y-3 sm:space-y-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/1.jpeg"
+                    alt="Home service"
+                    className="aspect-[4/5] w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/2.jpeg"
+                    alt="Home service"
+                    className="aspect-square w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                  />
+                </div>
+                {/* Right column */}
+                <div className="space-y-3 sm:space-y-4 pt-8 sm:pt-12">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/3.jpeg"
+                    alt="Home service"
+                    className="aspect-square w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/4.jpeg"
+                    alt="Home service"
+                    className="aspect-[4/5] w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                  />
+                </div>
+
+                {/* Floating rating badge */}
+                <div className="absolute -left-4 sm:-left-6 bottom-6 sm:bottom-10 bg-white rounded-2xl shadow-2xl shadow-slate-900/15 ring-1 ring-slate-200 px-4 py-3 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-accent-500 to-rose-500 text-white text-lg font-bold shadow-md">
+                    ★
+                  </div>
+                  <div className="leading-tight">
+                    <div className="text-lg font-extrabold text-slate-900">4.8</div>
+                    <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
+                      12M+ Bookings
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -141,6 +267,175 @@ export default async function HomePage() {
                 {s.k}
               </div>
               <div className="text-sm text-slate-600 mt-1">{s.v}</div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Featured service cards — Electrician / AC Repair / Refrigerator */}
+      <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-16">
+        <Reveal>
+          <div className="flex items-end justify-between mb-8 gap-4 flex-wrap">
+            <div>
+              <span className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] uppercase text-accent-600">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-500" /> Most Booked
+              </span>
+              <h2 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight">
+                Top picks this season
+              </h2>
+              <p className="text-slate-600 mt-1.5 max-w-lg">
+                Trusted technicians for the services your home needs most.
+              </p>
+            </div>
+            <Link
+              href="/services"
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-slate-700 hover:text-slate-900"
+            >
+              View all services <span aria-hidden>→</span>
+            </Link>
+          </div>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {[
+            {
+              slug: "electrician",
+              label: "Electrician",
+              tagline: "Wiring, switches, repairs",
+              blurb:
+                "Licensed electricians for fan installs, switchboard fixes, short-circuits, and full wiring jobs — safely, to code.",
+              priceFrom: "₹199",
+              src: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&q=80",
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                  <path d="M13 2L4.5 13h6l-1 9 8.5-11h-6l1-9z" />
+                </svg>
+              ),
+              gradient: "from-amber-400 to-orange-500",
+              features: ["Same-day", "Licensed", "30-day warranty"],
+            },
+            {
+              slug: "ac",
+              label: "AC Repair & Service",
+              tagline: "Split, window & central",
+              blurb:
+                "Cooling not working? Gas refill, deep cleaning, installation and AMC plans — for every brand and model.",
+              priceFrom: "₹449",
+              src: "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=1200&q=80",
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                  <rect x="2" y="5" width="20" height="9" rx="2" />
+                  <path d="M6 18l-1.5 3M12 18v3M18 18l1.5 3M5 9h14" />
+                </svg>
+              ),
+              gradient: "from-sky-400 to-blue-600",
+              features: ["All brands", "Genuine parts", "Free inspection"],
+            },
+            {
+              slug: "refrigerator",
+              label: "Refrigerator Repair",
+              tagline: "Single, double & side-by-side",
+              blurb:
+                "From cooling failures to strange noises — quick diagnosis and same-day fixes so your food stays fresh.",
+              priceFrom: "₹349",
+              src: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=1200&q=80",
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                  <rect x="6" y="2" width="12" height="20" rx="2" />
+                  <path d="M6 10h12M9 6v2M9 14v2" />
+                </svg>
+              ),
+              gradient: "from-emerald-400 to-teal-600",
+              features: ["Same-day fix", "All brands", "Compressor expert"],
+            },
+          ].map((card, i) => (
+            <Reveal key={card.slug} delay={i * 90}>
+              <Link
+                href={`/services?cat=${card.slug}`}
+                className="group block relative overflow-hidden rounded-3xl bg-white ring-1 ring-slate-200 shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-slate-900/15"
+              >
+                {/* Image */}
+                <div className="relative aspect-[5/4] overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={card.src}
+                    alt={card.label}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+                  {/* gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/10 to-transparent" />
+
+                  {/* Icon badge top-left */}
+                  <div
+                    className={
+                      "absolute top-4 left-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl text-white shadow-lg bg-gradient-to-br " +
+                      card.gradient
+                    }
+                  >
+                    {card.icon}
+                  </div>
+
+                  {/* Price chip top-right */}
+                  <div className="absolute top-4 right-4 rounded-full bg-white/95 backdrop-blur px-3 py-1.5 text-xs font-bold text-slate-900 shadow-sm">
+                    From <span className="text-accent-600">{card.priceFrom}</span>
+                  </div>
+
+                  {/* Label on image */}
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
+                      {card.tagline}
+                    </div>
+                    <div className="text-2xl font-extrabold leading-tight mt-0.5">
+                      {card.label}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="p-5">
+                  <p className="text-sm text-slate-600 line-clamp-2">{card.blurb}</p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {card.features.map((f) => (
+                      <span
+                        key={f}
+                        className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-700"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-3 w-3 text-emerald-500"
+                        >
+                          <path d="M5 12l5 5L20 7" />
+                        </svg>
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-5 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                      <span className="text-amber-500">★★★★★</span>
+                      <span className="font-semibold text-slate-700">4.8</span>
+                      <span>·</span>
+                      <span>2k+ jobs</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 group-hover:text-accent-600 transition">
+                      Book now
+                      <span
+                        aria-hidden
+                        className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+                      >
+                        →
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </Link>
             </Reveal>
           ))}
         </div>

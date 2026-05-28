@@ -4,7 +4,7 @@ import { PhoneIcon, EnvelopeIcon, BuildingIcon, LocationIcon } from "@/component
 export const metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with Global Service Mitra (a unit of Arpan Smart Services Private Limited) — our team is ready to help.",
+    "Get in touch with Global Service Mitra (a unit of Global Service Mitra Private Limited) — our team is ready to help.",
 };
 
 export default function ContactPage() {
@@ -39,7 +39,7 @@ export default function ContactPage() {
                 <div>
                   <div className="font-semibold">Global Service Mitra</div>
                   <div className="text-sm text-slate-500">
-                    A unit of Arpan Smart Services Private Limited
+                    A unit of Global Service Mitra Private Limited
                   </div>
                   <div className="text-sm text-slate-600 mt-1">
                     Laxmi Palace, 1st Floor 103, Boring Road, Patna, Bihar, India

@@ -26,22 +26,12 @@ export function LogoMark({
 export function BrandLogo({ compact = false }: { compact?: boolean }) {
   return (
     <Link href="/" className="flex items-center gap-2.5 group">
-      <LogoMark size={compact ? 32 : 40} />
-      <div className="leading-tight">
-        <div
-          className={
-            "font-extrabold tracking-tight " +
-            (compact ? "text-base" : "text-lg") +
-            " text-slate-900"
-          }
-        >
-          Global Service <span className="text-accent-500">Mitra</span>
-        </div>
-        {!compact && (
-          <div className="text-[9px] font-semibold text-ink-900/55 tracking-[0.18em] uppercase">
-            Service · Support · Solutions
-          </div>
-        )}
+      <LogoMark
+        size={compact ? 30 : 34}
+        className="transition-transform duration-300 group-hover:scale-105"
+      />
+      <div className="font-bold tracking-tight text-[15px] sm:text-base text-slate-900 whitespace-nowrap">
+        Global Service Mitra
       </div>
     </Link>
   );

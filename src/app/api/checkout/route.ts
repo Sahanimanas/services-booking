@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { effectiveUnitCents } from "@/lib/pricing";
 import { allocateDiscount, validateCoupon } from "@/lib/coupons";
+import { bookingAdminHtml, getAdminEmail, sendMail } from "@/lib/mailer";
 
 const ServiceLine = z.object({
   serviceId: z.string().min(1),
@@ -199,6 +200,7 @@ export async function POST(req: Request) {
 
     return {
       bookings: createdBookings.length,
+      bookingIds: createdBookings.map((b) => b.id),
       orderId: order?.id ?? null,
       coupon: appliedCouponCode,
       discountCents: totalDiscountCents,
@@ -206,5 +208,32 @@ export async function POST(req: Request) {
     };
   });
 
-  return NextResponse.json({ ok: true, ...result });
+  // Fire-and-forget admin notifications — one email per booking line.
+  for (const bid of result.bookingIds) {
+    notifyAdminOfBooking(bid).catch((e) => {
+      // eslint-disable-next-line no-console
+      console.error("[checkout] admin email failed:", e);
+    });
+  }
+
+  // Don't leak IDs to the client — keep the response shape unchanged.
+  const { bookingIds: _bookingIds, ...publicResult } = result;
+  return NextResponse.json({ ok: true, ...publicResult });
+}
+
+async function notifyAdminOfBooking(bookingId: string) {
+  const b = await prisma.booking.findUnique({
+    where: { id: bookingId },
+    include: {
+      service: { select: { title: true } },
+      locality: { select: { name: true, city: true } },
+      user: { select: { email: true, name: true, phone: true } },
+    },
+  });
+  if (!b) return;
+  await sendMail({
+    to: getAdminEmail(),
+    subject: `New booking: ${b.service.title} — ${b.contactName}`,
+    html: bookingAdminHtml(b),
+  });
 }

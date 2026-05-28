@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 type Category = { id: string; name: string };
 type Service = {
@@ -180,16 +181,7 @@ export default function ServiceForm({
         </label>
       </div>
 
-      <label className="block">
-        <span className="text-sm font-semibold">Image URL (optional)</span>
-        <input
-          name="imageUrl"
-          type="url"
-          defaultValue={service?.imageUrl ?? ""}
-          placeholder="https://..."
-          className="input mt-1"
-        />
-      </label>
+      <ImageUpload name="imageUrl" defaultValue={service?.imageUrl} label="Image" />
 
       <label className="inline-flex items-center gap-2">
         <input type="checkbox" name="active" defaultChecked={service?.active ?? true} />

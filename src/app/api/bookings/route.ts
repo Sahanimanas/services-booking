@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { effectiveUnitCents } from "@/lib/pricing";
+import { bookingAdminHtml, getAdminEmail, sendMail } from "@/lib/mailer";
 
 const Body = z.object({
   serviceId: z.string().min(1),
@@ -55,5 +56,28 @@ export async function POST(req: Request) {
     },
   });
 
+  // Fire-and-forget admin notification — never block the booking response.
+  notifyAdminOfBooking(booking.id).catch((e) => {
+    // eslint-disable-next-line no-console
+    console.error("[bookings] admin email failed:", e);
+  });
+
   return NextResponse.json({ ok: true, id: booking.id });
+}
+
+async function notifyAdminOfBooking(bookingId: string) {
+  const b = await prisma.booking.findUnique({
+    where: { id: bookingId },
+    include: {
+      service: { select: { title: true } },
+      locality: { select: { name: true, city: true } },
+      user: { select: { email: true, name: true, phone: true } },
+    },
+  });
+  if (!b) return;
+  await sendMail({
+    to: getAdminEmail(),
+    subject: `New booking: ${b.service.title} — ${b.contactName}`,
+    html: bookingAdminHtml(b),
+  });
 }

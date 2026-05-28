@@ -59,7 +59,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 py-5 text-center text-white/50 text-xs">
-        © {new Date().getFullYear()} Global Service Mitra · A unit of Arpan Smart Services Private
+        © {new Date().getFullYear()} Global Service Mitra · A unit of Global Service Mitra Private
         Limited · All rights reserved
       </div>
     </footer>

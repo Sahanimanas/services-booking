@@ -141,6 +141,14 @@ body {
   }
 }
 
+/* Hero decorative dot grid — faded radial dot pattern behind hero copy */
+.hero-dot-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.18) 1px, transparent 0);
+  background-size: 16px 16px;
+  -webkit-mask-image: radial-gradient(ellipse at top left, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse at top left, black 30%, transparent 75%);
+}
+
 /* Honour the user's preference for less motion */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
