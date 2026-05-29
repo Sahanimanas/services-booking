@@ -52,7 +52,31 @@ export async function POST(req: Request) {
   const json = await req.json().catch(() => null);
   const parsed = Body.safeParse(json);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid checkout payload" }, { status: 400 });
+    // Surface the first failing field so the user sees a specific message instead of
+    // the generic "Invalid checkout payload" — e.g. "Address: too short".
+    const issue = parsed.error.issues[0];
+    const path = issue?.path?.join(".") || "payload";
+    const detail = issue?.message ?? "Invalid value";
+    // Friendly labels for the common fields
+    const labels: Record<string, string> = {
+      "serviceDetails.localityId": "Locality",
+      "serviceDetails.address": "Address",
+      "serviceDetails.contactName": "Contact name",
+      "serviceDetails.contactPhone": "Contact phone",
+      "serviceDetails.scheduledAt": "Preferred date & time",
+      "serviceDetails.notes": "Notes",
+      "shipping.address": "Shipping address",
+      "shipping.contactName": "Shipping name",
+      "shipping.contactPhone": "Shipping phone",
+      paymentMethod: "Payment method",
+    };
+    const label = labels[path] ?? path;
+    // eslint-disable-next-line no-console
+    console.warn("[checkout] payload validation failed:", { path, detail, issues: parsed.error.issues });
+    return NextResponse.json(
+      { error: `${label}: ${detail}`, field: path },
+      { status: 400 }
+    );
   }
   const { services, products, serviceDetails, shipping, paymentMethod } = parsed.data;
   const rawCouponCode = parsed.data.couponCode?.trim().toUpperCase() || null;

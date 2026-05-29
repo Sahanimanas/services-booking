@@ -156,16 +156,16 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
   }
 
   return (
-    <div className="grid lg:grid-cols-3 gap-6">
-      <div className="lg:col-span-2 space-y-6">
+    <div className="grid lg:grid-cols-3 gap-8">
+      <div className="lg:col-span-2 space-y-8">
         {!user ? (
           <InlineAuth onAuthed={(u) => setUser(u)} />
         ) : (
-          <div className="card p-6 bg-slate-50">
+          <div className="rounded-2xl p-6 bg-blue-50 border border-blue-200 shadow-md shadow-blue-900/5">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs uppercase text-slate-500">Signed in as</div>
-                <div className="font-semibold text-slate-900">
+                <div className="text-xs uppercase text-blue-700/80">Signed in as</div>
+                <div className="font-semibold text-blue-900">
                   {user.name ?? user.email ?? user.phone}
                 </div>
               </div>
@@ -177,11 +177,11 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
         )}
 
         {user && (
-          <form onSubmit={onPlaceOrder} className="space-y-6">
+          <form onSubmit={onPlaceOrder} className="space-y-8">
             {needsServiceDetails && (
-              <div className="card p-6 space-y-4">
-                <h2 className="font-bold text-lg text-slate-900">Service details</h2>
-                <p className="text-sm text-ink-900/60 -mt-2">
+              <div className="rounded-2xl p-6 space-y-4 bg-emerald-50 border border-emerald-200 shadow-md shadow-emerald-900/5">
+                <h2 className="font-bold text-lg text-emerald-900">Service details</h2>
+                <p className="text-sm text-emerald-900/70 -mt-2">
                   We&apos;ll use these for every service in this order.
                 </p>
 
@@ -258,8 +258,8 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
             )}
 
             {needsShipping && (
-              <div className="card p-6 space-y-4">
-                <h2 className="font-bold text-lg text-slate-900">Shipping details (for products)</h2>
+              <div className="rounded-2xl p-6 space-y-4 bg-amber-50 border border-amber-200 shadow-md shadow-amber-900/5">
+                <h2 className="font-bold text-lg text-amber-900">Shipping details (for products)</h2>
                 <input
                   name="shipName"
                   required
@@ -286,8 +286,8 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
               </div>
             )}
 
-            <div className="card p-6 space-y-3">
-              <h2 className="font-bold text-lg text-slate-900">Payment method</h2>
+            <div className="rounded-2xl p-6 space-y-3 bg-violet-50 border border-violet-200 shadow-md shadow-violet-900/5">
+              <h2 className="font-bold text-lg text-violet-900">Payment method</h2>
               <PaymentChoice
                 checked={paymentMethod === "COD"}
                 onSelect={() => setPaymentMethod("COD")}
@@ -323,8 +323,8 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
       </div>
 
       <aside className="lg:col-span-1">
-        <div className="card p-6 sticky top-24">
-          <h2 className="font-bold text-lg mb-4 text-slate-900">Order Summary</h2>
+        <div className="rounded-2xl p-6 sticky top-24 bg-rose-50 border border-rose-200 shadow-md shadow-rose-900/5">
+          <h2 className="font-bold text-lg mb-4 text-rose-900">Order Summary</h2>
           <ul className="space-y-3 text-sm max-h-72 overflow-auto">
             {services.map((s) => (
               <li key={s.cartId} className="flex justify-between gap-3">
