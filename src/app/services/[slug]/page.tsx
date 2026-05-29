@@ -28,10 +28,6 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
   });
   if (!service) notFound();
 
-  const localities = await prisma.locality.findMany({
-    where: { active: true },
-    orderBy: { name: "asc" },
-  });
   const pct = effectiveDiscountPct(service);
   const finalCents = effectiveUnitCents(service);
 
@@ -81,9 +77,9 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
       </div>
 
       <div>
-        <div className="card p-6 sticky top-24">
-          <h2 className="text-xl font-bold mb-1">Add to cart</h2>
-          <p className="text-sm text-ink-900/60 mb-4">
+        <div className="rounded-2xl p-6 sticky top-24 bg-blue-50 border border-blue-200 shadow-md shadow-blue-900/5">
+          <h2 className="text-xl font-bold mb-1 text-blue-900">Add to cart</h2>
+          <p className="text-sm text-blue-900/70 mb-4">
             No sign-in needed — you'll log in only when you checkout.
           </p>
           <AddServiceToCart
@@ -94,7 +90,6 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
               imageUrl: service.imageUrl,
               unitCents: finalCents,
             }}
-            localities={localities.map((l) => ({ id: l.id, name: l.name, city: l.city }))}
           />
         </div>
       </div>

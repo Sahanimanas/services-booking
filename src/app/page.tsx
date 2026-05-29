@@ -4,6 +4,7 @@ import { rupees } from "@/lib/format";
 import { effectiveDiscountPct, effectiveUnitCents } from "@/lib/pricing";
 import Reveal from "@/components/Reveal";
 import CategoryIcon from "@/components/CategoryIcon";
+import Typewriter from "@/components/Typewriter";
 
 export const revalidate = 60;
 
@@ -13,7 +14,7 @@ const SERVICE_HIGHLIGHTS = [
   {
     slug: "ac",
     label: "AC Repair & Service",
-    src: "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=1200&q=80",
+    src: "/ac.png",
     blurb:
       "Cooling not what it used to be? Our technicians handle installation, gas refilling, and deep servicing for split and window ACs — so your home stays comfortable through the hottest months.",
     points: ["Split & window AC", "Gas refilling & leak fix", "Annual maintenance plans"],
@@ -21,7 +22,7 @@ const SERVICE_HIGHLIGHTS = [
   {
     slug: "refrigerator",
     label: "Refrigerator Repair",
-    src: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=1200&q=80",
+    src: "/fridge.png",
     blurb:
       "From cooling failures to strange noises, we diagnose and fix single-door, double-door, and side-by-side refrigerators of every brand — fast, so your food stays fresh.",
     points: ["All brands & models", "Compressor & thermostat", "Same-day diagnosis"],
@@ -29,7 +30,7 @@ const SERVICE_HIGHLIGHTS = [
   {
     slug: "washing-machine",
     label: "Washing Machine Repair",
-    src: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=1200&q=80",
+    src: "/washing_machine.png",
     blurb:
       "Drum not spinning or water not draining? We service top-load, front-load, and semi-automatic machines, replacing worn parts with genuine components.",
     points: ["Top & front load", "Drainage & spin issues", "Genuine spare parts"],
@@ -37,7 +38,7 @@ const SERVICE_HIGHLIGHTS = [
   {
     slug: "plumbing",
     label: "Plumbing Services",
-    src: "https://images.unsplash.com/photo-1607435097405-db48f377bff6?w=1200&q=80",
+    src: "/plumber.png",
     blurb:
       "Leaky taps, blocked drains, or a full bathroom fit-out — our plumbers arrive equipped to solve it cleanly the first time, with no mess left behind.",
     points: ["Leak & blockage fixes", "Tap & fitting installs", "Kitchen & bath plumbing"],
@@ -77,19 +78,10 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero — left copy + right image collage (Urban Company style) */}
-      <section className="relative isolate overflow-hidden min-h-screen flex items-center -mt-[5rem] bg-gradient-to-br from-white via-slate-50 to-orange-50/40">
-        {/* soft decorative blobs */}
-        <div
-          aria-hidden="true"
-          className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-accent-500/10 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute -bottom-24 right-1/3 h-[28rem] w-[28rem] rounded-full bg-brand-500/10 blur-3xl"
-        />
+      <section className="relative isolate overflow-hidden min-h-screen flex items-center -mt-[5rem] bg-white">
 
         <div className="relative max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-32 pb-16">
-          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-6 lg:gap-6 items-center">
             <div className="relative">
               {/* Decorative backdrop behind the text */}
               {/* Dot-grid pattern, top-left */}
@@ -155,15 +147,45 @@ export default async function HomePage() {
               />
 
               <Reveal variant="left" className="relative">
-                <span className="inline-flex items-center gap-2 rounded-full bg-white/80 backdrop-blur px-4 py-1.5 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 shadow-sm mb-6">
-                  <span className="text-accent-500">★</span> Trusted by 10,000+ households
-                </span>
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.05]">
+                {/* Hero search */}
+                <form action="/services" method="GET" role="search" className="mb-8 max-w-xl">
+                  <div className="relative flex items-center">
+                    <svg
+                      className="absolute left-4 h-5 w-5 text-slate-400 pointer-events-none"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <circle cx="11" cy="11" r="7" />
+                      <path d="M21 21l-4.3-4.3" />
+                    </svg>
+                    <input
+                      type="search"
+                      name="q"
+                      placeholder="Search for 'AC repair'"
+                      aria-label="Search services"
+                      autoComplete="off"
+                      className="w-full h-14 pl-12 pr-28 rounded-full bg-white border border-slate-200 shadow-lg shadow-slate-900/5 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200/70 text-base text-slate-900 placeholder:text-slate-400 transition"
+                    />
+                    <button
+                      type="submit"
+                      className="absolute right-1.5 inline-flex items-center justify-center h-11 px-5 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </form>
+
+                <h1 className=" text-3xl sm:text-5xl lg:text-7xl  tracking-tight text-slate-900 leading-[1.05]">
                   Home services <br />
                   at your{" "}
                   <span className="relative inline-block">
                     <span className="bg-gradient-to-r from-accent-500 via-rose-500 to-amber-500 bg-clip-text text-transparent">
-                      doorstep
+                      <Typewriter words={["doorstep", "fingertips", "command", "service"]} />
                     </span>
                     <span
                       aria-hidden="true"
@@ -171,10 +193,6 @@ export default async function HomePage() {
                     />
                   </span>
                 </h1>
-                <p className="mt-6 text-lg text-slate-600 max-w-xl">
-                  Verified professionals, transparent pricing, and same-day appointments — book the
-                  right pro for your home in minutes.
-                </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link href="/services" className="btn-primary shadow-lg shadow-slate-900/10">
                     Book a Service
@@ -194,6 +212,16 @@ export default async function HomePage() {
                     <span>📅</span> Same-Day Appointments
                   </span>
                 </div>
+
+                {/* 24/7 Support card */}
+                <div className="mt-8 inline-flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-6 py-4 shadow-md shadow-slate-900/5">
+                  <div className="text-3xl font-extrabold text-accent-500 leading-none">24/7</div>
+                  <div className="h-10 w-px bg-slate-200" />
+                  <div>
+                    <div className="text-sm font-semibold text-slate-900">Support</div>
+                    <div className="text-xs text-slate-500">Always here to help</div>
+                  </div>
+                </div>
               </Reveal>
             </div>
 
@@ -203,74 +231,46 @@ export default async function HomePage() {
                 <div className="space-y-3 sm:space-y-4">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/1.jpeg"
-                    alt="Home service"
-                    className="aspect-[4/5] w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                    src="/ac.png"
+                    alt="AC repair & service"
+                    className="aspect-[3/4] w-full rounded-3xl object-cover bg-slate-50 ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
                   />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/2.jpeg"
-                    alt="Home service"
-                    className="aspect-square w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                    src="/fridge.png"
+                    alt="Refrigerator repair"
+                    className="aspect-square w-full rounded-3xl object-cover bg-slate-50 ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
                   />
                 </div>
                 {/* Right column */}
                 <div className="space-y-3 sm:space-y-4 pt-8 sm:pt-12">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/3.jpeg"
-                    alt="Home service"
-                    className="aspect-square w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                    src="/plumber.png"
+                    alt="Plumbing services"
+                    className="aspect-square w-full rounded-3xl object-cover bg-slate-50 ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
                   />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/4.jpeg"
-                    alt="Home service"
-                    className="aspect-[4/5] w-full rounded-3xl object-cover ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
+                    src="/washing_machine.png"
+                    alt="Washing machine repair"
+                    className="aspect-[3/4] w-full rounded-3xl object-cover bg-slate-50 ring-1 ring-slate-200 shadow-xl shadow-slate-900/10 hover:scale-[1.02] transition duration-500"
                   />
                 </div>
 
-                {/* Floating rating badge */}
-                <div className="absolute -left-4 sm:-left-6 bottom-6 sm:bottom-10 bg-white rounded-2xl shadow-2xl shadow-slate-900/15 ring-1 ring-slate-200 px-4 py-3 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-accent-500 to-rose-500 text-white text-lg font-bold shadow-md">
-                    ★
-                  </div>
-                  <div className="leading-tight">
-                    <div className="text-lg font-extrabold text-slate-900">4.8</div>
-                    <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
-                      12M+ Bookings
-                    </div>
-                  </div>
-                </div>
               </div>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 -mt-10 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { k: "500+", v: "Pros Verified" },
-            { k: "50k+", v: "Bookings" },
-            { k: "4.8★", v: "Avg Rating" },
-            { k: "24/7", v: "Support" },
-          ].map((s, i) => (
-            <Reveal
-              key={s.v}
-              variant="up"
-              delay={i * 80}
-              className="card p-6 text-center hover:-translate-y-1 hover:shadow-xl transition duration-300"
-            >
-              <div className="text-3xl font-extrabold text-accent-500">
-                {s.k}
-              </div>
-              <div className="text-sm text-slate-600 mt-1">{s.v}</div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      {/* Section divider — orange accent line */}
+      <div
+        aria-hidden="true"
+        className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10"
+      >
+        <div className="h-px bg-gradient-to-r from-transparent via-accent-500 to-transparent" />
+      </div>
 
       {/* Featured service cards — Electrician / AC Repair / Refrigerator */}
       <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-16">
@@ -321,7 +321,7 @@ export default async function HomePage() {
               blurb:
                 "Cooling not working? Gas refill, deep cleaning, installation and AMC plans — for every brand and model.",
               priceFrom: "₹449",
-              src: "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=1200&q=80",
+              src: "/ac.png",
               icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <rect x="2" y="5" width="20" height="9" rx="2" />
@@ -338,7 +338,7 @@ export default async function HomePage() {
               blurb:
                 "From cooling failures to strange noises — quick diagnosis and same-day fixes so your food stays fresh.",
               priceFrom: "₹349",
-              src: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=1200&q=80",
+              src: "/fridge.png",
               icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <rect x="6" y="2" width="12" height="20" rx="2" />

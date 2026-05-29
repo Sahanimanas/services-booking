@@ -100,7 +100,7 @@ export default function CartView() {
           <div key={s.cartId} className="card p-5 flex gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={s.imageUrl ?? "https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=300"}
+              src={s.imageUrl ?? "/ac.png"}
               alt={s.title}
               className="w-24 h-24 rounded-xl object-cover bg-slate-100 flex-shrink-0"
             />
@@ -111,17 +111,12 @@ export default function CartView() {
                     Service
                   </span>
                   <h3 className="font-bold truncate">{s.title}</h3>
+                  <p className="text-xs text-ink-900/60 mt-1">
+                    Address &amp; date will be collected at checkout.
+                  </p>
                 </div>
                 <div className="text-right">
                   <div className="font-extrabold">{rupees(s.unitCents)}</div>
-                </div>
-              </div>
-              <div className="mt-2 text-xs text-ink-900/60 space-y-0.5">
-                <div>📍 {s.localityName}</div>
-                <div className="truncate">🏠 {s.address}</div>
-                <div>📅 {new Date(s.scheduledAt).toLocaleString()}</div>
-                <div>
-                  ☎ {s.contactName} · {s.contactPhone}
                 </div>
               </div>
               <button

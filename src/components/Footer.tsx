@@ -53,7 +53,7 @@ export default function Footer() {
           <h4 className="font-semibold mb-4 text-slate-300">Contact Us</h4>
           <ul className="space-y-3 text-white/70 text-sm">
             <li>📞 +91 98011 26444</li>
-            <li>✉️ support@globalservicemitra.com</li>
+            <li>✉️ info@globalservicemitra.com</li>
             <li>📍 Laxmi Palace, Boring Road, Patna, Bihar</li>
           </ul>
         </div>

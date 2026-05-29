@@ -50,7 +50,7 @@ export default function AboutPage() {
     <>
       {/* Hero — brand gradient, extends up behind the glass navbar */}
       <section className="relative -mt-[4.75rem] bg-brand-gradient">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-16 text-center">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-40 pb-20 text-center">
           <Reveal>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-sm">
               About Global Service Mitra

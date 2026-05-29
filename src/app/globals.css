@@ -168,3 +168,37 @@ body {
     transform: none !important;
   }
 }
+
+/* ─── Global navigation loader (used by app/loading.tsx) ─────────────────── */
+.loader {
+  width: fit-content;
+  padding-bottom: 5px;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  overflow: hidden;
+  color: #0000;
+  text-shadow: 0 0 0 #000, 10ch 0 0 #000;
+  background: linear-gradient(#000 0 0) bottom left / 0% 3px no-repeat;
+  animation: l14 1.5s infinite;
+}
+.loader::before {
+  content: "Loading...";
+}
+@keyframes l14 {
+  80% {
+    text-shadow: 0 0 0 #000, 10ch 0 0 #000;
+    background-size: 100% 3px;
+  }
+  100% {
+    text-shadow: -10ch 0 0 #000, 0 0 0 #000;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    animation: none;
+    color: #000;
+    text-shadow: none;
+    background: none;
+  }
+}

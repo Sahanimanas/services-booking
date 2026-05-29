@@ -11,7 +11,7 @@ export default function ContactPage() {
   return (
     <>
       <section className="relative -mt-[4.75rem] bg-brand-gradient">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-16 text-center">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 pt-40 pb-20 text-center">
           <Reveal>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-sm">
               Contact Us
@@ -52,7 +52,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact methods */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 grid sm:grid-cols-2 gap-6 pb-16">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 grid sm:grid-cols-2 gap-6 pb-16">
         <Reveal variant="left">
           <div className="card p-6 flex items-center gap-4 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div className="icon-tile w-12 h-12 rounded-xl border border-slate-300 flex items-center justify-center text-slate-700 shrink-0">
@@ -70,7 +70,7 @@ export default function ContactPage() {
           </div>
         </Reveal>
         <Reveal variant="right" delay={100}>
-          <div className="card p-6 flex items-center gap-4 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+          <div className="card p-6 flex items-center gap-4 transition duration-300 hover:-translate-y-1 hover:shadow-xl ">
             <div className="icon-tile w-12 h-12 rounded-xl border border-slate-300 flex items-center justify-center text-slate-700 shrink-0">
               <EnvelopeIcon />
             </div>
@@ -80,7 +80,7 @@ export default function ContactPage() {
                 href="mailto:support@globalservicemitra.com"
                 className="text-slate-900 font-bold text-lg underline-grow break-all"
               >
-                support@globalservicemitra.com
+                info@globalservicemitra.com
               </a>
             </div>
           </div>

@@ -15,7 +15,7 @@ export function LogoMark({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/logo.png"
+      src="/logo1.jpeg"
       alt="Global Service Mitra"
       style={{ height: size, width: "auto" }}
       className={className}

@@ -3,7 +3,9 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from "react";
 import type { CartItem, ProductCartItem, ServiceCartItem } from "@/lib/cart-types";
 
-const STORAGE_KEY = "gsm_cart_v1";
+// v2: ServiceCartItem no longer carries per-service address/date/contact —
+// those fields moved to the checkout form, so v1 carts must be discarded.
+const STORAGE_KEY = "gsm_cart_v2";
 
 type State = { items: CartItem[]; couponCode: string | null; ready: boolean };
 

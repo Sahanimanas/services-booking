@@ -19,6 +19,7 @@ model User {
   updatedAt    DateTime  @updatedAt
   bookings     Booking[]
   orders       ProductOrder[]
+  payments     Payment[]
 }
 
 enum Role {
@@ -111,6 +112,8 @@ model ProductOrder {
   totalCents    Int
   couponCode    String?
   notes         String?
+  paymentId     String?     @unique
+  payment       Payment?    @relation(fields: [paymentId], references: [id])
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
@@ -141,6 +144,7 @@ enum CouponKind {
 }
 
 enum OrderStatus {
+  AWAITING_PAYMENT
   PENDING
   CONFIRMED
   SHIPPED
@@ -186,17 +190,53 @@ model Booking {
   discountCents Int           @default(0)
   totalCents    Int
   couponCode    String?
+  paymentId     String?
+  payment       Payment?      @relation(fields: [paymentId], references: [id])
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
   @@index([userId])
   @@index([status])
+  @@index([paymentId])
 }
 
 enum BookingStatus {
+  AWAITING_PAYMENT
   PENDING
   CONFIRMED
   IN_PROGRESS
   COMPLETED
+  CANCELLED
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amountCents       Int
+  status            PaymentStatus @default(PENDING)
+  method            String?
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?       @unique
+  razorpayQrId      String?       @unique
+  qrImageUrl        String?
+  qrShortUrl        String?
+  expiresAt         DateTime?
+  paidAt            DateTime?
+  failureReason     String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  bookings          Booking[]
+  productOrder      ProductOrder?
+
+  @@index([userId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
   CANCELLED
 }

@@ -8,12 +8,6 @@ import { bookingAdminHtml, getAdminEmail, sendMail } from "@/lib/mailer";
 
 const ServiceLine = z.object({
   serviceId: z.string().min(1),
-  localityId: z.string().min(1),
-  address: z.string().trim().min(5),
-  contactName: z.string().trim().min(1),
-  contactPhone: z.string().trim().min(10),
-  scheduledAt: z.string().min(1),
-  notes: z.string().trim().nullable().optional(),
   unitCents: z.number().int().nonnegative(),
 });
 
@@ -22,6 +16,17 @@ const ProductLine = z.object({
   qty: z.number().int().min(1).max(100),
   unitCents: z.number().int().nonnegative(),
 });
+
+const ServiceDetails = z
+  .object({
+    localityId: z.string().min(1),
+    address: z.string().trim().min(5),
+    contactName: z.string().trim().min(1),
+    contactPhone: z.string().trim().min(10),
+    scheduledAt: z.string().min(1),
+    notes: z.string().trim().nullable().optional(),
+  })
+  .nullable();
 
 const Shipping = z
   .object({
@@ -34,8 +39,10 @@ const Shipping = z
 const Body = z.object({
   services: z.array(ServiceLine),
   products: z.array(ProductLine),
+  serviceDetails: ServiceDetails.optional(),
   shipping: Shipping.optional(),
   couponCode: z.string().trim().nullable().optional(),
+  paymentMethod: z.enum(["COD", "ONLINE"]),
 });
 
 export async function POST(req: Request) {
@@ -47,11 +54,17 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid checkout payload" }, { status: 400 });
   }
-  const { services, products, shipping } = parsed.data;
+  const { services, products, serviceDetails, shipping, paymentMethod } = parsed.data;
   const rawCouponCode = parsed.data.couponCode?.trim().toUpperCase() || null;
 
   if (services.length === 0 && products.length === 0) {
     return NextResponse.json({ error: "Your cart is empty" }, { status: 400 });
+  }
+  if (services.length > 0 && !serviceDetails) {
+    return NextResponse.json(
+      { error: "Service details are required" },
+      { status: 400 }
+    );
   }
   if (products.length > 0 && !shipping) {
     return NextResponse.json(
@@ -60,21 +73,28 @@ export async function POST(req: Request) {
     );
   }
 
+  // Online payment via Razorpay is not yet wired — only COD ships in this build.
+  if (paymentMethod === "ONLINE") {
+    return NextResponse.json(
+      { error: "Online UPI payment is coming soon. Please choose Cash on Service." },
+      { status: 400 }
+    );
+  }
+
   // Authoritative lookups
   const serviceIds = Array.from(new Set(services.map((s) => s.serviceId)));
   const productIds = Array.from(new Set(products.map((p) => p.productId)));
-  const localityIds = Array.from(new Set(services.map((s) => s.localityId)));
 
-  const [dbServices, dbProducts, dbLocalities, dbCoupon] = await Promise.all([
+  const [dbServices, dbProducts, dbLocality, dbCoupon] = await Promise.all([
     serviceIds.length
       ? prisma.service.findMany({ where: { id: { in: serviceIds }, active: true } })
       : Promise.resolve([]),
     productIds.length
       ? prisma.product.findMany({ where: { id: { in: productIds }, active: true } })
       : Promise.resolve([]),
-    localityIds.length
-      ? prisma.locality.findMany({ where: { id: { in: localityIds }, active: true } })
-      : Promise.resolve([]),
+    serviceDetails
+      ? prisma.locality.findUnique({ where: { id: serviceDetails.localityId } })
+      : Promise.resolve(null),
     rawCouponCode
       ? prisma.coupon.findUnique({ where: { code: rawCouponCode } })
       : Promise.resolve(null),
@@ -82,33 +102,46 @@ export async function POST(req: Request) {
 
   const svcMap = new Map(dbServices.map((s) => [s.id, s]));
   const prodMap = new Map(dbProducts.map((p) => [p.id, p]));
-  const locSet = new Set(dbLocalities.map((l) => l.id));
+
+  if (serviceDetails) {
+    if (!dbLocality || !dbLocality.active) {
+      return NextResponse.json(
+        { error: "We don't currently serve that locality." },
+        { status: 400 }
+      );
+    }
+    const at = new Date(serviceDetails.scheduledAt);
+    if (Number.isNaN(at.valueOf()) || at < new Date()) {
+      return NextResponse.json({ error: "Choose a future date and time." }, { status: 400 });
+    }
+  }
 
   for (const s of services) {
     if (!svcMap.has(s.serviceId)) {
-      return NextResponse.json({ error: "A service in your cart is no longer available." }, { status: 400 });
-    }
-    if (!locSet.has(s.localityId)) {
-      return NextResponse.json({ error: "We don't serve one of the selected localities." }, { status: 400 });
-    }
-    const at = new Date(s.scheduledAt);
-    if (Number.isNaN(at.valueOf()) || at < new Date()) {
-      return NextResponse.json({ error: "Choose a future time slot." }, { status: 400 });
+      return NextResponse.json(
+        { error: "A service in your cart is no longer available." },
+        { status: 400 }
+      );
     }
   }
   for (const p of products) {
     const dbP = prodMap.get(p.productId);
     if (!dbP) {
-      return NextResponse.json({ error: "A product in your cart is no longer available." }, { status: 400 });
+      return NextResponse.json(
+        { error: "A product in your cart is no longer available." },
+        { status: 400 }
+      );
     }
     if (dbP.stock < p.qty) {
       return NextResponse.json({ error: `Not enough stock for ${dbP.title}` }, { status: 400 });
     }
   }
 
-  // Build authoritative line subtotals (in DB-order: services first, then products)
+  // Authoritative line subtotals (services first, then products)
   const serviceLineSubtotals = services.map((s) => effectiveUnitCents(svcMap.get(s.serviceId)!));
-  const productLineSubtotals = products.map((p) => effectiveUnitCents(prodMap.get(p.productId)!) * p.qty);
+  const productLineSubtotals = products.map(
+    (p) => effectiveUnitCents(prodMap.get(p.productId)!) * p.qty
+  );
   const allLineSubtotals = [...serviceLineSubtotals, ...productLineSubtotals];
   const subtotalCents = allLineSubtotals.reduce((a, b) => a + b, 0);
 
@@ -128,7 +161,9 @@ export async function POST(req: Request) {
   const prodAllocations = allocations.slice(services.length);
   const productOrderDiscount = prodAllocations.reduce((a, b) => a + b, 0);
 
-  // Persist in one transaction
+  const cleanPhone = (p: string) => p.replace(/\D/g, "").slice(-10);
+
+  // Persist in one transaction. COD: bookings & orders go straight to PENDING.
   const result = await prisma.$transaction(async (tx) => {
     const createdBookings = await Promise.all(
       services.map((s, idx) => {
@@ -138,16 +173,17 @@ export async function POST(req: Request) {
           data: {
             userId: user.id,
             serviceId: s.serviceId,
-            localityId: s.localityId,
-            address: s.address,
-            contactName: s.contactName,
-            contactPhone: s.contactPhone.replace(/\D/g, "").slice(-10),
-            scheduledAt: new Date(s.scheduledAt),
-            notes: s.notes ?? null,
+            localityId: serviceDetails!.localityId,
+            address: serviceDetails!.address,
+            contactName: serviceDetails!.contactName,
+            contactPhone: cleanPhone(serviceDetails!.contactPhone),
+            scheduledAt: new Date(serviceDetails!.scheduledAt),
+            notes: serviceDetails!.notes ?? null,
             subtotalCents: lineSub,
             discountCents: disc,
             totalCents: Math.max(0, lineSub - disc),
             couponCode: disc > 0 ? appliedCouponCode : null,
+            status: "PENDING",
           },
         });
       })
@@ -156,19 +192,19 @@ export async function POST(req: Request) {
     let order: { id: string } | null = null;
     if (products.length > 0 && shipping) {
       const productsSubtotal = productLineSubtotals.reduce((a, b) => a + b, 0);
-      const orderDiscount = productOrderDiscount;
-      const orderTotal = Math.max(0, productsSubtotal - orderDiscount);
+      const orderTotal = Math.max(0, productsSubtotal - productOrderDiscount);
 
       order = await tx.productOrder.create({
         data: {
           userId: user.id,
           address: shipping.address,
           contactName: shipping.contactName,
-          contactPhone: shipping.contactPhone.replace(/\D/g, "").slice(-10),
+          contactPhone: cleanPhone(shipping.contactPhone),
           subtotalCents: productsSubtotal,
-          discountCents: orderDiscount,
+          discountCents: productOrderDiscount,
           totalCents: orderTotal,
-          couponCode: orderDiscount > 0 ? appliedCouponCode : null,
+          couponCode: productOrderDiscount > 0 ? appliedCouponCode : null,
+          status: "PENDING",
           items: {
             create: products.map((p) => {
               const dbP = prodMap.get(p.productId)!;
@@ -216,9 +252,9 @@ export async function POST(req: Request) {
     });
   }
 
-  // Don't leak IDs to the client — keep the response shape unchanged.
   const { bookingIds: _bookingIds, ...publicResult } = result;
-  return NextResponse.json({ ok: true, ...publicResult });
+  void _bookingIds;
+  return NextResponse.json({ ok: true, paymentMethod, ...publicResult });
 }
 
 async function notifyAdminOfBooking(bookingId: string) {

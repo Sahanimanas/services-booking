@@ -6,13 +6,6 @@ export type ServiceCartItem = {
   title: string;
   imageUrl?: string | null;
   unitCents: number; // already discounted
-  localityId: string;
-  localityName: string;
-  address: string;
-  contactName: string;
-  contactPhone: string;
-  scheduledAt: string; // ISO
-  notes?: string;
 };
 
 export type ProductCartItem = {

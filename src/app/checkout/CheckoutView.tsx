@@ -8,6 +8,8 @@ import { rupees } from "@/lib/format";
 import type { ProductCartItem, ServiceCartItem } from "@/lib/cart-types";
 import InlineAuth from "./InlineAuth";
 
+type Locality = { id: string; name: string; city: string };
+
 type Props = {
   user: {
     id: string;
@@ -15,9 +17,12 @@ type Props = {
     email: string | null;
     phone: string | null;
   } | null;
+  localities: Locality[];
 };
 
-export default function CheckoutView({ user: initialUser }: Props) {
+type PaymentMethod = "COD" | "ONLINE";
+
+export default function CheckoutView({ user: initialUser, localities }: Props) {
   const router = useRouter();
   const { items, ready, subtotalCents, couponCode, setCoupon, clear } = useCart();
   const [user, setUser] = useState(initialUser);
@@ -25,6 +30,7 @@ export default function CheckoutView({ user: initialUser }: Props) {
   const [err, setErr] = useState<string | null>(null);
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [couponError, setCouponError] = useState<string | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("COD");
 
   // Re-validate coupon as cart/coupon change
   useEffect(() => {
@@ -74,25 +80,43 @@ export default function CheckoutView({ user: initialUser }: Props) {
 
   const services = items.filter((i): i is ServiceCartItem => i.kind === "service");
   const products = items.filter((i): i is ProductCartItem => i.kind === "product");
+  const needsServiceDetails = services.length > 0;
   const needsShipping = products.length > 0;
   const totalCents = Math.max(0, subtotalCents - couponDiscount);
 
-  async function placeOrder(shipping?: {
-    address: string;
-    contactName: string;
-    contactPhone: string;
-  }) {
+  // Default scheduled date — tomorrow at 10:00 local
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(10, 0, 0, 0);
+  const defaultDT = tomorrow.toISOString().slice(0, 16);
+
+  async function placeOrder(form: HTMLFormElement) {
     setPlacing(true);
     setErr(null);
+    const fd = new FormData(form);
+
+    const serviceDetails = needsServiceDetails
+      ? {
+          localityId: String(fd.get("localityId") ?? ""),
+          address: String(fd.get("address") ?? ""),
+          contactName: String(fd.get("contactName") ?? ""),
+          contactPhone: String(fd.get("contactPhone") ?? ""),
+          scheduledAt: new Date(String(fd.get("scheduledAt"))).toISOString(),
+          notes: String(fd.get("notes") ?? "") || null,
+        }
+      : null;
+
+    const shipping = needsShipping
+      ? {
+          address: String(fd.get("shipAddress") ?? ""),
+          contactName: String(fd.get("shipName") ?? ""),
+          contactPhone: String(fd.get("shipPhone") ?? ""),
+        }
+      : null;
+
     const payload = {
       services: services.map((s) => ({
         serviceId: s.serviceId,
-        localityId: s.localityId,
-        address: s.address,
-        contactName: s.contactName,
-        contactPhone: s.contactPhone,
-        scheduledAt: s.scheduledAt,
-        notes: s.notes ?? null,
         unitCents: s.unitCents,
       })),
       products: products.map((p) => ({
@@ -100,9 +124,12 @@ export default function CheckoutView({ user: initialUser }: Props) {
         qty: p.qty,
         unitCents: p.unitCents,
       })),
-      shipping: shipping ?? null,
+      serviceDetails,
+      shipping,
       couponCode: couponCode || null,
+      paymentMethod,
     };
+
     const res = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -121,16 +148,11 @@ export default function CheckoutView({ user: initialUser }: Props) {
 
   function onPlaceOrder(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (needsShipping) {
-      const fd = new FormData(e.currentTarget);
-      placeOrder({
-        address: String(fd.get("shipAddress") ?? ""),
-        contactName: String(fd.get("shipName") ?? ""),
-        contactPhone: String(fd.get("shipPhone") ?? ""),
-      });
-    } else {
-      placeOrder();
+    if (paymentMethod === "ONLINE") {
+      setErr("Online UPI payment is coming soon — please use Cash on Service for now.");
+      return;
     }
+    placeOrder(e.currentTarget);
   }
 
   return (
@@ -155,14 +177,89 @@ export default function CheckoutView({ user: initialUser }: Props) {
         )}
 
         {user && (
-          <form onSubmit={onPlaceOrder} className="card p-6 space-y-4">
-            <h2 className="font-bold text-lg text-slate-900">Confirm &amp; Pay</h2>
+          <form onSubmit={onPlaceOrder} className="space-y-6">
+            {needsServiceDetails && (
+              <div className="card p-6 space-y-4">
+                <h2 className="font-bold text-lg text-slate-900">Service details</h2>
+                <p className="text-sm text-ink-900/60 -mt-2">
+                  We&apos;ll use these for every service in this order.
+                </p>
+
+                <label className="block">
+                  <span className="text-sm font-medium">Locality</span>
+                  <select name="localityId" required defaultValue="" className="input mt-1">
+                    <option value="" disabled>
+                      Select your area
+                    </option>
+                    {localities.map((l) => (
+                      <option key={l.id} value={l.id}>
+                        {l.name} ({l.city})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="block">
+                  <span className="text-sm font-medium">Address</span>
+                  <textarea
+                    name="address"
+                    required
+                    rows={2}
+                    placeholder="House / flat no., street, landmark"
+                    className="input mt-1"
+                  />
+                </label>
+
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <label className="block">
+                    <span className="text-sm font-medium">Contact name</span>
+                    <input
+                      name="contactName"
+                      required
+                      defaultValue={user.name ?? ""}
+                      className="input mt-1"
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-sm font-medium">Contact phone</span>
+                    <input
+                      name="contactPhone"
+                      required
+                      inputMode="tel"
+                      pattern="[0-9]{10}"
+                      defaultValue={user.phone ?? ""}
+                      placeholder="10-digit number"
+                      className="input mt-1"
+                    />
+                  </label>
+                </div>
+
+                <label className="block">
+                  <span className="text-sm font-medium">Preferred date &amp; time</span>
+                  <input
+                    type="datetime-local"
+                    name="scheduledAt"
+                    required
+                    defaultValue={defaultDT}
+                    className="input mt-1"
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="text-sm font-medium">Notes (optional)</span>
+                  <textarea
+                    name="notes"
+                    rows={2}
+                    placeholder="Anything our technician should know?"
+                    className="input mt-1"
+                  />
+                </label>
+              </div>
+            )}
 
             {needsShipping && (
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
-                <div className="text-sm font-semibold text-slate-900">
-                  Shipping details (for products)
-                </div>
+              <div className="card p-6 space-y-4">
+                <h2 className="font-bold text-lg text-slate-900">Shipping details (for products)</h2>
                 <input
                   name="shipName"
                   required
@@ -189,6 +286,24 @@ export default function CheckoutView({ user: initialUser }: Props) {
               </div>
             )}
 
+            <div className="card p-6 space-y-3">
+              <h2 className="font-bold text-lg text-slate-900">Payment method</h2>
+              <PaymentChoice
+                checked={paymentMethod === "COD"}
+                onSelect={() => setPaymentMethod("COD")}
+                title="Cash on Service"
+                desc="Pay the technician in cash on your appointment, or pay on delivery for products."
+                badge="No advance payment"
+              />
+              <PaymentChoice
+                checked={paymentMethod === "ONLINE"}
+                onSelect={() => setPaymentMethod("ONLINE")}
+                title="UPI / Online (coming soon)"
+                desc="Scan a UPI QR code to pay instantly. Available shortly."
+                disabled
+              />
+            </div>
+
             {err && (
               <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">
                 {err}
@@ -196,7 +311,9 @@ export default function CheckoutView({ user: initialUser }: Props) {
             )}
 
             <button type="submit" disabled={placing} className="btn-primary w-full">
-              {placing ? "Placing order..." : `Place order · ${rupees(totalCents)}`}
+              {placing
+                ? "Placing order..."
+                : `Place order · ${rupees(totalCents)} · Pay on service`}
             </button>
             <p className="text-xs text-ink-900/50 text-center">
               By placing the order you agree to our terms of service.
@@ -213,9 +330,7 @@ export default function CheckoutView({ user: initialUser }: Props) {
               <li key={s.cartId} className="flex justify-between gap-3">
                 <span className="min-w-0">
                   <span className="block font-medium truncate text-slate-900">{s.title}</span>
-                  <span className="block text-xs text-slate-500">
-                    {new Date(s.scheduledAt).toLocaleString()}
-                  </span>
+                  <span className="block text-xs text-slate-500">Service</span>
                 </span>
                 <span className="font-semibold whitespace-nowrap text-slate-900">
                   {rupees(s.unitCents)}
@@ -274,5 +389,57 @@ export default function CheckoutView({ user: initialUser }: Props) {
         </div>
       </aside>
     </div>
+  );
+}
+
+function PaymentChoice({
+  checked,
+  onSelect,
+  title,
+  desc,
+  badge,
+  disabled,
+}: {
+  checked: boolean;
+  onSelect: () => void;
+  title: string;
+  desc: string;
+  badge?: string;
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={disabled ? undefined : onSelect}
+      disabled={disabled}
+      className={
+        "w-full text-left rounded-xl border p-4 flex items-start gap-3 transition " +
+        (disabled
+          ? "border-slate-200 bg-slate-50 opacity-60 cursor-not-allowed"
+          : checked
+          ? "border-accent-500 ring-2 ring-accent-500/30 bg-accent-50/40"
+          : "border-slate-200 hover:border-slate-300")
+      }
+    >
+      <span
+        className={
+          "mt-0.5 h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 " +
+          (checked ? "border-accent-500" : "border-slate-300")
+        }
+      >
+        {checked && <span className="h-2.5 w-2.5 rounded-full bg-accent-500" />}
+      </span>
+      <span className="flex-1 min-w-0">
+        <span className="flex items-center gap-2 flex-wrap">
+          <span className="font-semibold text-slate-900">{title}</span>
+          {badge && (
+            <span className="text-[10px] uppercase tracking-wider font-bold text-green-700 bg-green-100 rounded-full px-2 py-0.5">
+              {badge}
+            </span>
+          )}
+        </span>
+        <span className="block text-sm text-ink-900/60 mt-0.5">{desc}</span>
+      </span>
+    </button>
   );
 }
