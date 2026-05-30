@@ -14,9 +14,9 @@ export default function Loading() {
       role="status"
       aria-live="polite"
       aria-label="Loading"
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-white/55 backdrop-blur-md"
+      className="fixed inset-0 z-[60]  flex items-center justify-center bg-white/55 backdrop-blur-md"
     >
-      <div className="rounded-2xl bg-white px-10 py-8 shadow-2xl shadow-slate-900/20 ring-1 ring-slate-200">
+      <div className=" px-10 py-8   ">
         {/* Custom CSS loader — see .loader in globals.css.
             It renders its own "Loading..." text via ::before. */}
         <div className="loader" />

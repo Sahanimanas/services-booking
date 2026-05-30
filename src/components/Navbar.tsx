@@ -32,25 +32,28 @@ export default async function Navbar() {
   const iconButtonClass =
     "inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-700 hover:bg-slate-200/70 transition";
 
-  const desktopActions = user ? (
-    <>
-      <Link href="/bookings" aria-label="My bookings" className={iconButtonClass}>
-        {ProfileIcon}
-      </Link>
-      <form action="/api/auth/logout" method="POST">
-        <button
-          type="submit"
-          className="text-sm font-medium text-slate-600 hover:text-slate-900 px-3 py-1.5 transition"
-        >
-          Sign out
-        </button>
-      </form>
-    </>
+  // Profile icon — shown on the top bar at every screen size (mobile included).
+  const profile = user ? (
+    <Link href="/bookings" aria-label="My bookings" className={iconButtonClass}>
+      {ProfileIcon}
+    </Link>
   ) : (
     <Link href="/login" aria-label="Sign in" className={iconButtonClass}>
       {ProfileIcon}
     </Link>
   );
+
+  // Desktop-only extras (Sign out lives next to the profile icon on larger screens).
+  const desktopActions = user ? (
+    <form action="/api/auth/logout" method="POST">
+      <button
+        type="submit"
+        className="text-sm font-medium text-slate-600 hover:text-slate-900 px-3 py-1.5 transition"
+      >
+        Sign out
+      </button>
+    </form>
+  ) : null;
 
   const mobileActions = user ? (
     <>
@@ -79,6 +82,7 @@ export default async function Navbar() {
       brand={<BrandLogo compact />}
       links={LINKS}
       cart={<CartButton />}
+      profile={profile}
       desktopActions={desktopActions}
       mobileActions={mobileActions}
     />

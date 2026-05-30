@@ -30,7 +30,7 @@ export function BrandLogo({ compact = false }: { compact?: boolean }) {
         size={compact ? 30 : 34}
         className="transition-transform duration-300 group-hover:scale-105"
       />
-      <div className="font-bold tracking-tight text-[15px] sm:text-base text-slate-900 whitespace-nowrap">
+      <div className="hidden sm:block font-bold tracking-tight text-[15px] sm:text-base text-slate-900 whitespace-nowrap">
         Global Service Mitra
       </div>
     </Link>

@@ -46,13 +46,18 @@ export default function AddServiceToCart({ service }: Props) {
         </ol>
       </div>
 
-      <div className="flex items-center justify-between border-t border-blue-200 pt-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-blue-200 pt-4">
         <div>
           <div className="text-xs text-ink-900/50">Price</div>
           <div className="text-2xl font-extrabold">{rupees(service.unitCents)}</div>
         </div>
-        <div className="flex gap-2">
-          <button type="button" onClick={add} disabled={adding} className="btn-outline">
+        <div className="flex gap-2 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={add}
+            disabled={adding}
+            className="btn-outline flex-1 sm:flex-none whitespace-nowrap"
+          >
             {adding ? "Adding..." : added ? "Added ✓" : "Add to Cart"}
           </button>
           <button
@@ -61,7 +66,7 @@ export default function AddServiceToCart({ service }: Props) {
               add();
               router.push("/cart");
             }}
-            className="btn-primary"
+            className="btn-primary flex-1 sm:flex-none whitespace-nowrap"
             disabled={adding}
           >
             Book Now →

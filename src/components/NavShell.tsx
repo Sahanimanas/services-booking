@@ -15,12 +15,14 @@ export default function NavShell({
   brand,
   links,
   cart,
+  profile,
   desktopActions,
   mobileActions,
 }: {
   brand: React.ReactNode;
   links: LinkItem[];
   cart: React.ReactNode;
+  profile: React.ReactNode;
   desktopActions: React.ReactNode;
   mobileActions: React.ReactNode;
 }) {
@@ -75,9 +77,10 @@ export default function NavShell({
           </form>
         </div>
 
-        {/* Right-side actions: cart + profile/sign-in */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* Right-side actions: cart + profile (always) + sign-out etc. (desktop) */}
+        <div className="flex items-center gap-2 shrink-0 ml-auto md:ml-0">
           {cart}
+          {profile}
           <div className="hidden lg:flex items-center gap-2">{desktopActions}</div>
 
           {/* Hamburger — small screens */}
