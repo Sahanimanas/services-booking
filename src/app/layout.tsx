@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { ConfirmProvider } from "@/components/ConfirmDialog";
 
@@ -54,9 +55,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen flex flex-col">
         <ConfirmProvider>
           <CartProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <SiteChrome navbar={<Navbar />} footer={<Footer />}>
+              <main className="flex-1">{children}</main>
+            </SiteChrome>
           </CartProvider>
         </ConfirmProvider>
       </body>
