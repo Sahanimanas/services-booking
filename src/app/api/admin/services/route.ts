@@ -13,14 +13,20 @@ const nullableUrl = z
   .nullable()
   .optional();
 
+const nullableDate = z
+  .union([z.string(), z.null()])
+  .transform((v) => (typeof v === "string" && v.trim() === "" ? null : v))
+  .nullable()
+  .optional();
+
 const Body = z.object({
   title: z.string().trim().min(1),
   slug: z.string().trim().min(1).regex(/^[a-z0-9-]+$/, "Slug must be lowercase letters, numbers and hyphens"),
   description: z.string().trim().min(1),
   priceRupees: z.number({ invalid_type_error: "Price must be a number" }).int().nonnegative(),
   discountPct: z.number({ invalid_type_error: "Discount must be a number" }).int().min(0).max(90),
-  saleStartsAt: z.string().nullable().optional(),
-  saleEndsAt: z.string().nullable().optional(),
+  saleStartsAt: nullableDate,
+  saleEndsAt: nullableDate,
   durationMin: z.number({ invalid_type_error: "Duration must be a number" }).int().min(5),
   imageUrl: nullableUrl,
   active: z.boolean(),
