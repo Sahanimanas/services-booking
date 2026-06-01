@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
@@ -31,6 +31,75 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [couponError, setCouponError] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("COD");
+
+  // — Auto-fill address via browser geolocation + OpenStreetMap Nominatim.
+  // Uncontrolled inputs: we mutate the DOM value via ref so the form still
+  // submits the geocoded value while the customer can edit/override it.
+  const addressRef = useRef<HTMLTextAreaElement>(null);
+  const localityRef = useRef<HTMLSelectElement>(null);
+  const [locating, setLocating] = useState(false);
+  const [locateErr, setLocateErr] = useState<string | null>(null);
+
+  async function useMyLocation() {
+    setLocateErr(null);
+    if (typeof navigator === "undefined" || !("geolocation" in navigator)) {
+      setLocateErr("Geolocation is not supported on this device.");
+      return;
+    }
+    setLocating(true);
+    try {
+      const pos = await new Promise<GeolocationPosition>((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10_000,
+          maximumAge: 60_000,
+        })
+      );
+      const { latitude, longitude } = pos.coords;
+      // Nominatim reverse-geocoding. Free, but rate-limited (1 req/sec).
+      // For low-volume browser use this is fine; do NOT hammer it from servers.
+      const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1&zoom=18`;
+      const res = await fetch(url, { headers: { "Accept-Language": "en" } });
+      if (!res.ok) throw new Error("Could not look up that location.");
+      const data = await res.json();
+      const a = data?.address ?? {};
+      const parts = [
+        a.house_number,
+        a.road || a.pedestrian || a.residential,
+        a.neighbourhood || a.suburb,
+        a.city_district || a.city || a.town || a.village,
+        a.state,
+        a.postcode,
+      ].filter(Boolean);
+      const addressText = parts.length > 0 ? parts.join(", ") : data?.display_name ?? "";
+      if (addressRef.current && addressText) addressRef.current.value = addressText;
+
+      // Try to auto-pick a matching locality from the dropdown.
+      const candidates: string[] = [
+        a.suburb,
+        a.neighbourhood,
+        a.city_district,
+        a.city,
+        a.town,
+        a.village,
+      ]
+        .filter(Boolean)
+        .map((s: string) => String(s).toLowerCase());
+      const match = localities.find((l) => {
+        const name = l.name.toLowerCase();
+        return candidates.some((c) => c.includes(name) || name.includes(c));
+      });
+      if (match && localityRef.current) localityRef.current.value = match.id;
+    } catch (e) {
+      const err = e as GeolocationPositionError & { message?: string };
+      if (err?.code === 1) setLocateErr("Permission denied. Please allow location access.");
+      else if (err?.code === 2) setLocateErr("Couldn't determine your location.");
+      else if (err?.code === 3) setLocateErr("Timed out getting your location.");
+      else setLocateErr(err?.message ?? "Could not get your location.");
+    } finally {
+      setLocating(false);
+    }
+  }
 
   // Re-validate coupon as cart/coupon change
   useEffect(() => {
@@ -185,9 +254,36 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
                   We&apos;ll use these for every service in this order.
                 </p>
 
+                {/* Auto-fill address from the browser's current location */}
+                <div className="rounded-xl border border-emerald-200 bg-white/70 p-3 flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={useMyLocation}
+                    disabled={locating}
+                    className="inline-flex items-center gap-2 rounded-full bg-emerald-600 text-white text-sm font-semibold px-4 py-2 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                  >
+                    <span aria-hidden>📍</span>
+                    {locating ? "Locating…" : "Use my current location"}
+                  </button>
+                  <span className="text-xs text-emerald-900/70">
+                    or fill in manually below
+                  </span>
+                </div>
+                {locateErr && (
+                  <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2 -mt-2">
+                    {locateErr}
+                  </div>
+                )}
+
                 <label className="block">
                   <span className="text-sm font-medium">Locality</span>
-                  <select name="localityId" required defaultValue="" className="input mt-1">
+                  <select
+                    ref={localityRef}
+                    name="localityId"
+                    required
+                    defaultValue=""
+                    className="input mt-1"
+                  >
                     <option value="" disabled>
                       Select your area
                     </option>
@@ -202,6 +298,7 @@ export default function CheckoutView({ user: initialUser, localities }: Props) {
                 <label className="block">
                   <span className="text-sm font-medium">Address</span>
                   <textarea
+                    ref={addressRef}
                     name="address"
                     required
                     rows={2}
