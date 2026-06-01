@@ -4,8 +4,6 @@ import { otpEmailHtml, sendMail } from "./mailer";
 const OTP_TTL_MIN = 10;
 
 export function generateOtp(): string {
-  const fixed = process.env.DEV_OTP_CODE;
-  if (fixed && fixed !== "random") return fixed;
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
@@ -30,11 +28,6 @@ export async function issueOtp(phone: string): Promise<string> {
       // eslint-disable-next-line no-console
       console.error("[OTP] email send failed:", e);
     });
-  }
-
-  if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
-    console.log(`[OTP] phone=${phone} code=${code}`);
   }
 
   return code;

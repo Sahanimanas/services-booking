@@ -122,7 +122,6 @@ function MobileForm({ next }: { next: string }) {
   const [phone, setPhone] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const [hint, setHint] = useState<string | null>(null);
 
   async function sendOtp(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -139,8 +138,6 @@ function MobileForm({ next }: { next: string }) {
       setErr(data?.error ?? "Could not send OTP");
       return;
     }
-    const data = await res.json();
-    if (data?.devCode) setHint(`Dev OTP: ${data.devCode}`);
     setStep("otp");
   }
 
@@ -220,7 +217,6 @@ function MobileForm({ next }: { next: string }) {
           className="input mt-1 tracking-[0.5em] text-center text-lg"
         />
       </label>
-      {hint && <div className="text-xs text-slate-700 bg-slate-100 rounded-xl p-2">{hint}</div>}
       {err && (
         <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">
           {err}

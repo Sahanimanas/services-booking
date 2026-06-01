@@ -14,7 +14,6 @@ export async function POST(req: Request) {
   if (phone.length !== 10) {
     return NextResponse.json({ error: "Enter a 10-digit phone" }, { status: 400 });
   }
-  const code = await issueOtp(phone);
-  const reveal = process.env.NODE_ENV !== "production";
-  return NextResponse.json({ ok: true, devCode: reveal ? code : undefined });
+  await issueOtp(phone);
+  return NextResponse.json({ ok: true });
 }
